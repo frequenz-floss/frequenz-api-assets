@@ -2,16 +2,19 @@
 
 ## Summary
 
-<!-- Here goes a general summary of what this release is about -->
+- Setup the proto files for the Assets API.
+- Added the first version of the API, with the following RPCs:
+  - `GetMicrogrid`
+  - `ListMicrogridComponents`
+  - `ListMicrogridComponentConnections`
 
 ## Upgrading
 
-<!-- Here goes notes on how to upgrade from previous versions, including deprecations and what they should be replaced with -->
 
 ## New Features
 
-<!-- Here goes the main new features and examples or instructions on how to use them -->
+- Added the first version of the Assets API.
+- Added the proto files to the Python package.
 
 ## Bug Fixes
 
-<!-- Here goes notable bug fixes that are worth a special mention or explanation -->
