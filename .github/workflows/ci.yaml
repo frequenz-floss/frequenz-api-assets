@@ -33,7 +33,7 @@ jobs:
         uses: frequenz-floss/gh-action-setup-git@v0.x.x
 
       - name: Fetch sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
 
