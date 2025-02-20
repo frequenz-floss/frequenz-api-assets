@@ -1,0 +1,19 @@
+{
+  "cookiecutter": {
+    "Introduction": "",
+    "type": "api",
+    "name": "common",
+    "description": "Frequenz common gRPC API and bindings",
+    "title": "Frequenz Common API",
+    "keywords": "",
+    "github_org": "frequenz-floss",
+    "license": "MIT",
+    "author_name": "Frequenz Energy-as-a-Service GmbH",
+    "author_email": "floss@frequenz.com",
+    "python_package": "frequenz.api.common",
+    "pypi_package_name": "frequenz-api-common",
+    "github_repo_name": "frequenz-api-common",
+    "default_codeowners": "@frequenz-floss/api-team",
+    "_template": "gh:frequenz-floss/frequenz-repo-config-python"
+  }
+}
