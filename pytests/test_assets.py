@@ -15,11 +15,11 @@ def test_package_import() -> None:
 def test_module_import_components() -> None:
     """Test that the modules can be imported."""
     # pylint: disable=import-outside-toplevel
-    from frequenz.api.assets import assets_pb2
+    from frequenz.api.assets.v1 import assets_pb2
 
     assert assets_pb2 is not None
 
     # pylint: disable=import-outside-toplevel
-    from frequenz.api.assets import assets_pb2_grpc
+    from frequenz.api.assets.v1 import assets_pb2_grpc
 
     assert assets_pb2_grpc is not None
