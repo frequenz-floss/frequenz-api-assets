@@ -1854,7 +1854,7 @@ given a specific microgrid.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>py/frequenz/api/assets/v1/assets_pb2.py</code></summary>
+                <summary>Source code in <code>frequenz/api/assets/v1/assets_pb2.py</code></summary>
                 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-26">26</a></span>
 <span class="normal"><a href="#__codelineno-0-27">27</a></span>
 <span class="normal"><a href="#__codelineno-0-28">28</a></span>
@@ -1959,7 +1959,7 @@ given a specific microgrid.</p>
 
 
               <details class="quote">
-                <summary>Source code in <code>py/frequenz/api/assets/v1/assets_pb2.py</code></summary>
+                <summary>Source code in <code>frequenz/api/assets/v1/assets_pb2.py</code></summary>
                 <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
 <span class="normal"><a href="#__codelineno-0-48">48</a></span>
@@ -2031,7 +2031,29 @@ given a specific microgrid.</p>
               Bases: <code><span title="google.protobuf.message.Message">Message</span></code></p>
 
 
-        <p>Request for retrieving component connections within a microgrid</p>
+        <p>ListMicrogridComponentConnectionsRequest is used for filtering and listing 
+the electrical connections between components in a specific microgrid. 
+These connections can be used to construct a component graph of the
+microgrid.</p>
+<div class="admonition note">
+<p class="admonition-title">Component Graph</p>
+</div>
+<p>A component graph in the context of a microgrid refers to a directed graph 
+where the nodes represent electrical components (like generators, batteries, 
+or loads) and the edges represent electrical connections between them.
+The edges are directional, pointing away from the grid-connection point 
+(or the root point for island microgrids). 
+This means that for each edge, the source component is towards the grid 
+connection point, and the destination component is pointing towards
+an underlying component.
+This graph provides a structured view of how electrical energy flows within 
+the microgrid.</p>
+<div class="admonition note">
+<p class="admonition-title">Filtering</p>
+</div>
+<p>Filtering can be done based on the source_component_id or 
+destination_component_id. If these fields are left empty, connections with 
+any source or destination will be returned.</p>
 
 
 
@@ -2241,20 +2263,7 @@ the filter criteria specified in the ListConnectionsRequest.</p>
               Bases: <code><span title="google.protobuf.message.Message">Message</span></code></p>
 
 
-        <p>ListMicrogridComponentConnectionsRequest is used for filtering and listing the electrical
-connections between components in a specific microgrid. These connections can be used
-to construct a component graph of the microgrid.</p>
-<div class="admonition note">
-<p class="admonition-title">Component Graph</p>
-</div>
-<p>A component graph in the context of a microgrid refers to a directed graph where the nodes represent electrical
-components (like generators, batteries, or loads) and the edges represent electrical connections between them.
-This graph provides a structured view of how electrical energy flows within the microgrid.</p>
-<div class="admonition note">
-<p class="admonition-title">Filtering</p>
-</div>
-<p>Filtering can be done based on the source_component_id or destination_component_id. If these
-fields are left empty, connections with any source or destination will be returned.</p>
+        <p>Request parameters for the RPC <code>ListMicrogridComponents</code>.</p>
 
 
 

@@ -1435,7 +1435,25 @@ given a specific microgrid.</p>
 </table>
 <p><a name="frequenz-api-assets-v1-ListMicrogridComponentConnectionsRequest"></a></p>
 <h3 id="listmicrogridcomponentconnectionsrequest">ListMicrogridComponentConnectionsRequest<a class="headerlink" href="#listmicrogridcomponentconnectionsrequest" title="Permanent link">¤</a></h3>
-<p>Request for retrieving component connections within a microgrid</p>
+<p>ListMicrogridComponentConnectionsRequest is used for filtering and listing 
+the electrical connections between components in a specific microgrid. 
+These connections can be used to construct a component graph of the
+microgrid.</p>
+<p>!!! note &#34;Component Graph&#34;
+A component graph in the context of a microgrid refers to a directed graph 
+where the nodes represent electrical components (like generators, batteries, 
+or loads) and the edges represent electrical connections between them.
+The edges are directional, pointing away from the grid-connection point 
+(or the root point for island microgrids). 
+This means that for each edge, the source component is towards the grid 
+connection point, and the destination component is pointing towards
+an underlying component.
+This graph provides a structured view of how electrical energy flows within 
+the microgrid.</p>
+<p>!!! note &#34;Filtering&#34;
+Filtering can be done based on the source_component_id or 
+destination_component_id. If these fields are left empty, connections with 
+any source or destination will be returned.</p>
 <table>
 <thead>
 <tr>
@@ -1497,16 +1515,7 @@ the filter criteria specified in the ListConnectionsRequest.</p>
 </table>
 <p><a name="frequenz-api-assets-v1-ListMicrogridComponentsRequest"></a></p>
 <h3 id="listmicrogridcomponentsrequest">ListMicrogridComponentsRequest<a class="headerlink" href="#listmicrogridcomponentsrequest" title="Permanent link">¤</a></h3>
-<p>ListMicrogridComponentConnectionsRequest is used for filtering and listing the electrical
-connections between components in a specific microgrid. These connections can be used
-to construct a component graph of the microgrid.</p>
-<p>!!! note &#34;Component Graph&#34;
-A component graph in the context of a microgrid refers to a directed graph where the nodes represent electrical
-components (like generators, batteries, or loads) and the edges represent electrical connections between them.
-This graph provides a structured view of how electrical energy flows within the microgrid.</p>
-<p>!!! note &#34;Filtering&#34;
-Filtering can be done based on the source_component_id or destination_component_id. If these
-fields are left empty, connections with any source or destination will be returned.</p>
+<p>Request parameters for the RPC <code>ListMicrogridComponents</code>.</p>
 <table>
 <thead>
 <tr>
