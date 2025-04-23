@@ -2,16 +2,14 @@
 
 ## Summary
 
-<!-- Here goes a general summary of what this release is about -->
+Adjusted the RPC names to align with the new naming convention, and updated the `frequenz-api-common` dependency.
+
 
 ## Upgrading
 
-<!-- Here goes notes on how to upgrade from previous versions, including deprecations and what they should be replaced with -->
+- Update the `frequenz-api-common` dependency
 
 ## New Features
 
-<!-- Here goes the main new features and examples or instructions on how to use them -->
+- Renamed `ListMicrogridComponents` to `ListMicrogridElectricalComponents` and `ListMicrogridComponentConnections` to `ListMicrogridElectricalComponentConnections`.
 
-## Bug Fixes
-
-<!-- Here goes notable bug fixes that are worth a special mention or explanation -->
