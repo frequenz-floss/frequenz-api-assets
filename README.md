@@ -8,7 +8,7 @@
 
 The Frequenz Platform Assets API allows for the retrieval of platform assets information. Unlike CRUD-centric 
 APIs, the focus here is on accessing already registered assets ranging from microgrids and gridpools to 
-individual components within these structures, such as sensors and their respective electrical connections.
+individual electrical components within these structures, such as sensors and their respective electrical connections.
 
 ## Objective
 
@@ -19,7 +19,7 @@ across multiple microgrids, optimizing spot market trading based on real-time gr
 ## Key Features
 
 - Asset Retrieval: Provides programmatic access to a wide range of platform assets, including microgrids, 
-   gridpools, components, sensors, and connections.
+   gridpools, electrical components, and connections.
 - Data-Driven Optimization: Facilitates the development of applications that can read asset information and 
    statuses for real-time decision making.
 - Scheduling Insights: Enables applications to understand and adapt to gridpool schedules for improved spot 
@@ -27,7 +27,7 @@ across multiple microgrids, optimizing spot market trading based on real-time gr
 
 ## Scope and Limitations
 
-- Retrieval of detailed asset data for various entities such as microgrids, gridpools, and their components.
+- Retrieval of detailed asset data for various entities such as microgrids, gridpools, and their electrical components.
 - Enabling advanced analytics and data-driven decisions for cloud applications.
 - Read-Only: The API is designed for data retrieval and doesn't support CRUD operations for assets.
 - Dependence on Platform: The quality and timeliness of data are dependent on the capabilities of the underlying platform.
