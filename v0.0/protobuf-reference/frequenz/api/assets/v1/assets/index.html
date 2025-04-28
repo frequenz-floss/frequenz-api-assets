@@ -765,36 +765,36 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentconnectionsrequest" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentconnectionsrequest" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentConnectionsRequest
+      ListMicrogridElectricalComponentConnectionsRequest
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentconnectionsresponse" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentconnectionsresponse" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentConnectionsResponse
+      ListMicrogridElectricalComponentConnectionsResponse
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentsrequest" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentsrequest" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentsRequest
+      ListMicrogridElectricalComponentsRequest
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentsresponse" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentsresponse" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentsResponse
+      ListMicrogridElectricalComponentsResponse
     </span>
   </a>
   
@@ -1284,36 +1284,36 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentconnectionsrequest" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentconnectionsrequest" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentConnectionsRequest
+      ListMicrogridElectricalComponentConnectionsRequest
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentconnectionsresponse" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentconnectionsresponse" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentConnectionsResponse
+      ListMicrogridElectricalComponentConnectionsResponse
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentsrequest" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentsrequest" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentsRequest
+      ListMicrogridElectricalComponentsRequest
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#listmicrogridcomponentsresponse" class="md-nav__link">
+  <a href="#listmicrogridelectricalcomponentsresponse" class="md-nav__link">
     <span class="md-ellipsis">
-      ListMicrogridComponentsResponse
+      ListMicrogridElectricalComponentsResponse
     </span>
   </a>
   
@@ -1370,11 +1370,11 @@
 <ul>
 <li><a href="#frequenz-api-assets-v1-GetMicrogridRequest">GetMicrogridRequest</a></li>
 <li><a href="#frequenz-api-assets-v1-GetMicrogridResponse">GetMicrogridResponse</a></li>
-<li><a href="#frequenz-api-assets-v1-ListMicrogridComponentConnectionsRequest">ListMicrogridComponentConnectionsRequest</a></li>
-<li><a href="#frequenz-api-assets-v1-ListMicrogridComponentConnectionsResponse">ListMicrogridComponentConnectionsResponse</a></li>
-<li><a href="#frequenz-api-assets-v1-ListMicrogridComponentsRequest">ListMicrogridComponentsRequest</a></li>
+<li><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentConnectionsRequest">ListMicrogridElectricalComponentConnectionsRequest</a></li>
+<li><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentConnectionsResponse">ListMicrogridElectricalComponentConnectionsResponse</a></li>
+<li><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentsRequest">ListMicrogridElectricalComponentsRequest</a></li>
 <li>
-<p><a href="#frequenz-api-assets-v1-ListMicrogridComponentsResponse">ListMicrogridComponentsResponse</a></p>
+<p><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentsResponse">ListMicrogridElectricalComponentsResponse</a></p>
 </li>
 <li>
 <p><a href="#frequenz-api-assets-v1-PlatformAssets">PlatformAssets</a></p>
@@ -1433,27 +1433,27 @@ given a specific microgrid.</p>
 </tr>
 </tbody>
 </table>
-<p><a name="frequenz-api-assets-v1-ListMicrogridComponentConnectionsRequest"></a></p>
-<h3 id="listmicrogridcomponentconnectionsrequest">ListMicrogridComponentConnectionsRequest<a class="headerlink" href="#listmicrogridcomponentconnectionsrequest" title="Permanent link">¤</a></h3>
-<p>ListMicrogridComponentConnectionsRequest is used for filtering and listing 
+<p><a name="frequenz-api-assets-v1-ListMicrogridElectricalComponentConnectionsRequest"></a></p>
+<h3 id="listmicrogridelectricalcomponentconnectionsrequest">ListMicrogridElectricalComponentConnectionsRequest<a class="headerlink" href="#listmicrogridelectricalcomponentconnectionsrequest" title="Permanent link">¤</a></h3>
+<p>ListMicrogridElectricalComponentConnectionsRequest is used for filtering and listing
 the electrical connections between components in a specific microgrid. 
 These connections can be used to construct a component graph of the
 microgrid.</p>
 <p>!!! note &#34;Component Graph&#34;
-A component graph in the context of a microgrid refers to a directed graph 
-where the nodes represent electrical components (like generators, batteries, 
-or loads) and the edges represent electrical connections between them.
-The edges are directional, pointing away from the grid-connection point 
-(or the root point for island microgrids). 
-This means that for each edge, the source component is towards the grid 
-connection point, and the destination component is pointing towards
-an underlying component.
-This graph provides a structured view of how electrical energy flows within 
-the microgrid.</p>
+    A component graph in the context of a microgrid refers to a directed graph
+    where the nodes represent electrical components (like generators, batteries,
+    or loads) and the edges represent electrical connections between them.
+    The edges are directional, pointing away from the grid-connection point
+    (or the root point for island microgrids).
+    This means that for each edge, the source component is towards the grid
+    connection point, and the destination component is pointing towards
+    an underlying component.
+    This graph provides a structured view of how electrical energy flows within
+    the microgrid.</p>
 <p>!!! note &#34;Filtering&#34;
-Filtering can be done based on the source_component_id or 
-destination_component_id. If these fields are left empty, connections with 
-any source or destination will be returned.</p>
+    Filtering can be done based on the source_component_id or
+    destination_component_id. If these fields are left empty, connections with
+    any source or destination will be returned.</p>
 <table>
 <thead>
 <tr>
@@ -1484,11 +1484,11 @@ any source or destination will be returned.</p>
 </tr>
 </tbody>
 </table>
-<p><a name="frequenz-api-assets-v1-ListMicrogridComponentConnectionsResponse"></a></p>
-<h3 id="listmicrogridcomponentconnectionsresponse">ListMicrogridComponentConnectionsResponse<a class="headerlink" href="#listmicrogridcomponentconnectionsresponse" title="Permanent link">¤</a></h3>
-<p>ListMicrogridComponentConnectionsResponse 
-holds the list of electrical connections that match
-the filter criteria specified in the ListConnectionsRequest.</p>
+<p><a name="frequenz-api-assets-v1-ListMicrogridElectricalComponentConnectionsResponse"></a></p>
+<h3 id="listmicrogridelectricalcomponentconnectionsresponse">ListMicrogridElectricalComponentConnectionsResponse<a class="headerlink" href="#listmicrogridelectricalcomponentconnectionsresponse" title="Permanent link">¤</a></h3>
+<p>ListMicrogridElectricalComponentConnectionsResponse holds the list of electrical
+connections that match the filter criteria specified in the
+ListMicrogridElectricalComponentConnectionsRequest.</p>
 <table>
 <thead>
 <tr>
@@ -1503,19 +1503,19 @@ the filter criteria specified in the ListConnectionsRequest.</p>
 <td>microgrid_id</td>
 <td><a href="#uint64">uint64</a></td>
 <td></td>
-<td>The ID of the microgrid for which connections are to be listed.</td>
+<td>The ID of the microgrid for which connections are returned.</td>
 </tr>
 <tr>
 <td>connections</td>
-<td><a href="#frequenz-api-common-v1-microgrid-components-ComponentConnection">frequenz.api.common.v1.microgrid.components.ComponentConnection</a></td>
+<td><a href="#frequenz-api-common-v1-microgrid-electrical_components-ElectricalComponentConnection">frequenz.api.common.v1.microgrid.electrical_components.ElectricalComponentConnection</a></td>
 <td>repeated</td>
 <td>Contains the list of connections that match the filtering criteria.</td>
 </tr>
 </tbody>
 </table>
-<p><a name="frequenz-api-assets-v1-ListMicrogridComponentsRequest"></a></p>
-<h3 id="listmicrogridcomponentsrequest">ListMicrogridComponentsRequest<a class="headerlink" href="#listmicrogridcomponentsrequest" title="Permanent link">¤</a></h3>
-<p>Request parameters for the RPC <code>ListMicrogridComponents</code>.</p>
+<p><a name="frequenz-api-assets-v1-ListMicrogridElectricalComponentsRequest"></a></p>
+<h3 id="listmicrogridelectricalcomponentsrequest">ListMicrogridElectricalComponentsRequest<a class="headerlink" href="#listmicrogridelectricalcomponentsrequest" title="Permanent link">¤</a></h3>
+<p>Request parameters for the RPC <code>ListMicrogridElectricalComponents</code>.</p>
 <table>
 <thead>
 <tr>
@@ -1540,15 +1540,15 @@ the filter criteria specified in the ListConnectionsRequest.</p>
 </tr>
 <tr>
 <td>categories</td>
-<td><a href="#frequenz-api-common-v1-microgrid-components-ComponentCategory">frequenz.api.common.v1.microgrid.components.ComponentCategory</a></td>
+<td><a href="#frequenz-api-common-v1-microgrid-electrical_components-ElectricalComponentCategory">frequenz.api.common.v1.microgrid.electrical_components.ElectricalComponentCategory</a></td>
 <td>repeated</td>
 <td>Return components that have the specified categories only.</td>
 </tr>
 </tbody>
 </table>
-<p><a name="frequenz-api-assets-v1-ListMicrogridComponentsResponse"></a></p>
-<h3 id="listmicrogridcomponentsresponse">ListMicrogridComponentsResponse<a class="headerlink" href="#listmicrogridcomponentsresponse" title="Permanent link">¤</a></h3>
-<p>A message containing a list of components.</p>
+<p><a name="frequenz-api-assets-v1-ListMicrogridElectricalComponentsResponse"></a></p>
+<h3 id="listmicrogridelectricalcomponentsresponse">ListMicrogridElectricalComponentsResponse<a class="headerlink" href="#listmicrogridelectricalcomponentsresponse" title="Permanent link">¤</a></h3>
+<p>A message containing a list of electrical components.</p>
 <table>
 <thead>
 <tr>
@@ -1563,13 +1563,13 @@ the filter criteria specified in the ListConnectionsRequest.</p>
 <td>microgrid_id</td>
 <td><a href="#uint64">uint64</a></td>
 <td></td>
-<td>Unique microgrid identifier used in the request. Could be removed if the Component message would include the microgrid_id</td>
+<td>Unique microgrid identifier used in the request.</td>
 </tr>
 <tr>
 <td>components</td>
-<td><a href="#frequenz-api-common-v1-microgrid-components-Component">frequenz.api.common.v1.microgrid.components.Component</a></td>
+<td><a href="#frequenz-api-common-v1-microgrid-electrical_components-ElectricalComponent">frequenz.api.common.v1.microgrid.electrical_components.ElectricalComponent</a></td>
 <td>repeated</td>
-<td>List of components matching the filter criteria.</td>
+<td>List of electrical components matching the filter criteria.</td>
 </tr>
 </tbody>
 </table>
@@ -1594,16 +1594,16 @@ related to gridpools and microgrids, and other platform assets.</p>
 <td>Returns details of a specific microgrid.</td>
 </tr>
 <tr>
-<td>ListMicrogridComponents</td>
-<td><a href="#frequenz-api-assets-v1-ListMicrogridComponentsRequest">ListMicrogridComponentsRequest</a></td>
-<td><a href="#frequenz-api-assets-v1-ListMicrogridComponentsResponse">ListMicrogridComponentsResponse</a></td>
+<td>ListMicrogridElectricalComponents</td>
+<td><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentsRequest">ListMicrogridElectricalComponentsRequest</a></td>
+<td><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentsResponse">ListMicrogridElectricalComponentsResponse</a></td>
 <td>Returns list of a electrical components for a specific microgrid.</td>
 </tr>
 <tr>
-<td>ListMicrogridComponentConnections</td>
-<td><a href="#frequenz-api-assets-v1-ListMicrogridComponentConnectionsRequest">ListMicrogridComponentConnectionsRequest</a></td>
-<td><a href="#frequenz-api-assets-v1-ListMicrogridComponentConnectionsResponse">ListMicrogridComponentConnectionsResponse</a></td>
-<td>Returns a list of the connections between electrical components for a specific microgrid</td>
+<td>ListMicrogridElectricalComponentConnections</td>
+<td><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentConnectionsRequest">ListMicrogridElectricalComponentConnectionsRequest</a></td>
+<td><a href="#frequenz-api-assets-v1-ListMicrogridElectricalComponentConnectionsResponse">ListMicrogridElectricalComponentConnectionsResponse</a></td>
+<td>Returns a list of the connections between electrical components for a specific microgrid.</td>
 </tr>
 </tbody>
 </table>
