@@ -45,15 +45,15 @@ classifiers = [
 ]
 requires-python = ">= 3.11, < 4"
 dependencies = [
-  "frequenz-api-common @ git+https://github.com/frequenz-floss/frequenz-api-common.git@ebf585f580a277410a3619a6e7d5c2361d7960f4",
+  "frequenz-api-common @ git+https://github.com/frequenz-floss/frequenz-api-common.git@0e45c6d7fe92b708f1e7ca7a6f13e4513bfe7cf4",
   # We can't widen beyond the current value unless we bump the minimum
   # requirements too because of protobuf cross-version runtime guarantees:
   # https://protobuf.dev/support/cross-version-runtime-guarantee/#major
-  "protobuf >= 5.29.3, < 7", # Do not widen beyond 7!
+  "protobuf >= 6.31.1, < 8", # Do not widen beyond 8!
   # We couldn't find any document with a spec about the cross-version runtime
   # guarantee for grpcio, so unless we find one in the future, we'll assume
   # major version jumps are not compatible
-  "grpcio >= 1.70.0, < 2", # Do not widen beyond 2!
+  "grpcio >= 1.72.1, < 2", # Do not widen beyond 2!
 ]
 dynamic = ["version"]
 
