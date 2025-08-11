@@ -14,8 +14,9 @@ syntax = "proto3";
 
 package frequenz.api.assets.v1;
 
-import "frequenz/api/common/v1/microgrid/electrical_components/electrical_components.proto";
-import "frequenz/api/common/v1/microgrid/microgrid.proto";
+import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
+import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
+
 
 // Service providing access to manage and retrieve information
 // related to gridpools and microgrids, and other platform assets.
@@ -45,7 +46,7 @@ message GetMicrogridRequest {
 // given a specific microgrid.
 message GetMicrogridResponse {
   // Details of the requested microgrid.
-  frequenz.api.common.v1.microgrid.Microgrid microgrid = 1;
+  frequenz.api.common.v1alpha8.microgrid.Microgrid microgrid = 1;
 }
 
 // Request parameters for the RPC `ListMicrogridElectricalComponents`.
@@ -58,7 +59,7 @@ message ListMicrogridElectricalComponentsRequest {
   repeated uint64 component_ids = 2;
 
   // Return components that have the specified categories only.
-  repeated frequenz.api.common.v1.microgrid.electrical_components.ElectricalComponentCategory categories = 3;
+  repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.ElectricalComponentCategory categories = 3;
 }
 
 // A message containing a list of electrical components.
@@ -67,7 +68,7 @@ message ListMicrogridElectricalComponentsResponse {
   uint64 microgrid_id = 1;
   
   // List of electrical components matching the filter criteria.
-  repeated frequenz.api.common.v1.microgrid.electrical_components.ElectricalComponent components = 2;
+  repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.ElectricalComponent components = 2;
 }
 
 // ListMicrogridElectricalComponentConnectionsRequest is used for filtering and listing
@@ -115,5 +116,5 @@ message ListMicrogridElectricalComponentConnectionsResponse {
   uint64 microgrid_id = 1;
   
   // Contains the list of connections that match the filtering criteria.
-  repeated frequenz.api.common.v1.microgrid.electrical_components.ElectricalComponentConnection connections =2;
+  repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.ElectricalComponentConnection connections =2;
 }
