@@ -2,11 +2,8 @@
 
 ## Summary
 
+## Breaking Changes
 
-## Upgrading
-
-- Update the `frequenz-api-common` dependency 
-
-## New Features
+- Changed list methods to streaming methods to align with the rest of the APIs
 
 
