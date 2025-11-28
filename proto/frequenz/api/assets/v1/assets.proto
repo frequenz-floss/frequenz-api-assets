@@ -13,7 +13,10 @@ syntax = "proto3";
 package frequenz.api.assets.v1;
 
 // protolint:disable:next MAX_LINE_LENGTH
+import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
+// protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
+// protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
 
 // Service providing access to manage and retrieve information
@@ -25,13 +28,13 @@ service PlatformAssets {
   // Returns list of a electrical components for a specific microgrid.
   rpc ListMicrogridElectricalComponents(
       ListMicrogridElectricalComponentsRequest)
-    returns (ListMicrogridElectricalComponentsResponse);
+      returns (ListMicrogridElectricalComponentsResponse);
 
   // Returns a list of the connections between electrical components for a
   // specific microgrid.
   rpc ListMicrogridElectricalComponentConnections(
-    ListMicrogridElectricalComponentConnectionsRequest)
-  returns (ListMicrogridElectricalComponentConnectionsResponse);
+      ListMicrogridElectricalComponentConnectionsRequest)
+      returns (ListMicrogridElectricalComponentConnectionsResponse);
 }
 
 // GetMicrogridRequest is the input parameter for fetching details
@@ -53,7 +56,7 @@ message ListMicrogridElectricalComponentsRequest {
   // Mandatory field. The ID of the microgrid for which components
   // are to be listed.
   uint64 microgrid_id = 1;
-  
+
   // Return components that have the specified IDs only.
   repeated uint64 component_ids = 2;
 
@@ -66,7 +69,7 @@ message ListMicrogridElectricalComponentsRequest {
 message ListMicrogridElectricalComponentsResponse {
   // Unique microgrid identifier used in the request.
   uint64 microgrid_id = 1;
-  
+
   // List of electrical components matching the filter criteria.
   repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.
       ElectricalComponent components = 2;
@@ -112,8 +115,24 @@ message ListMicrogridElectricalComponentConnectionsRequest {
 message ListMicrogridElectricalComponentConnectionsResponse {
   // The ID of the microgrid for which connections are returned.
   uint64 microgrid_id = 1;
-  
+
   // Contains the list of connections that match the filtering criteria.
   repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.
-      ElectricalComponentConnection connections =2;
+      ElectricalComponentConnection connections = 2;
+}
+
+// GetGridpoolRequest is the input parameter for fetching details
+// given a specific gridpool.
+message GetGridpoolRequest {
+  // The unique identifier of the gridpool for which to fetch details.
+  uint64 gridpool_id = 1;
+}
+
+// GetGridpoolResponse is the response for fetching details
+// given a specific gridpool.
+message GetGridpoolResponse {
+  // Details of the requested gridpool.
+  frequenz.api.common.v1alpha8.gridpool.Gridpool gridpool = 1;
+  // List of microgrids in the gridpool.
+  repeated frequenz.api.common.v1alpha8.microgrid.Microgrid microgrids = 2;
 }

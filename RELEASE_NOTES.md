@@ -12,5 +12,4 @@ Rename service
 - Introduced new version
 
 ## New Features
-
-n/a
+- Add the `GetGridpool` RPC to the `PlatformAssets` service.
