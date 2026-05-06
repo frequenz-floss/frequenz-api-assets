@@ -10,7 +10,8 @@ repo_name: "frequenz-api-assets"
 repo_url: "https://github.com/frequenz-floss/frequenz-api-assets"
 # if the project uses a different default branch.
 edit_uri: "edit/v0.x.x/docs/"
-strict: true  # Treat warnings as errors
+# Disabled temporarily until https://github.com/mkdocstrings/griffe/issues/453 is resolved.
+strict: false  # Treat warnings as errors
 
 # Build directories
 theme:
