@@ -98,7 +98,7 @@ dev-pylint = [
 ]
 dev-pytest = [
   "pytest == 9.0.3",
-  "pylint == 3.3.8",  
+  "pylint == 4.0.5",  
   "frequenz-repo-config[extra-lint-examples] == 0.17.0",
 ]
 dev = [
