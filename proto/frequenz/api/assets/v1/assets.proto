@@ -10,15 +10,15 @@
 
 syntax = "proto3";
 
-package frequenz.api.platformassets.v1;
+package frequenz.api.assets.v1;
 
 // protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
 import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
 
 // Service providing access to manage and retrieve information
-// related to Gridpools and microgrids, and other platform assets.
-service PlatformAssetsService {
+// related to gridpools and microgrids, and other platform assets.
+service PlatformAssets {
   // Returns details of a specific microgrid.
   rpc GetMicrogrid(GetMicrogridRequest) returns (GetMicrogridResponse);
 
