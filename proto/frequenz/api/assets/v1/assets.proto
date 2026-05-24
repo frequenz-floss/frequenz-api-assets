@@ -71,11 +71,9 @@ message ListMicrogridElectricalComponentsResponse {
   repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.ElectricalComponent components = 2;
 }
 
-// ListMicrogridElectricalComponentConnectionsRequest is used for filtering and listing
-// the electrical connections between components in a specific microgrid. 
-// These connections can be used to construct a component graph of the
-// microgrid.
-// 
+// ListMicrogridElectricalComponentConnectionsRequest is used for listing
+// the electrical connections between components in a microgrid. Connections define
+// a directed graph of electrical energy flow.
 //
 // !!! note "Component Graph"
 //     A component graph in the context of a microgrid refers to a directed graph
