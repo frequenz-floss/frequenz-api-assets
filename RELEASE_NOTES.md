@@ -2,11 +2,12 @@
 
 ## Summary
 
+Documentation improvement
 
 ## Upgrading
 
-- Update the `frequenz-api-common` dependency 
+- Improved ListMicrogridElectricalComponentConnectionsRequest header doc
 
 ## New Features
 
-
+n/a
