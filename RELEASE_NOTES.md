@@ -2,11 +2,15 @@
 
 ## Summary
 
+Documentation improvement
+Rename service
 
 ## Upgrading
 
-- Update the `frequenz-api-common` dependency 
+- Improved ListMicrogridElectricalComponentConnectionsRequest header doc
+- Rename service
+- Introduced new version
 
 ## New Features
 
-
+n/a
