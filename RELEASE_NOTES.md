@@ -2,19 +2,16 @@
 
 ## Summary
 
-This release adds `ListMicrogrids` and `GetGridpool` to
-`frequenz.api.platformassets.v1alpha1`.
+<!-- Here goes a general summary of what this release is about -->
 
 ## Upgrading
 
-- `frequenz.api.platformassets.v1alpha1.PlatformAssetsService` now includes
-  `ListMicrogrids`.
-- `frequenz.api.platformassets.v1alpha1` includes the `GetGridpool`
-  request/response messages and RPC.
-- `frequenz.api.platformassets.v1alpha1` remains a separate versioned package
-  with the renamed `PlatformAssetsService`.
+<!-- Here goes notes on how to upgrade from previous versions, including deprecations and what they should be replaced with -->
 
 ## New Features
 
-- Add the `ListMicrogrids` RPC to the `PlatformAssetsService` service.
-- Add the `GetGridpool` RPC to the `PlatformAssetsService` service.
+<!-- Here goes the main new features and examples or instructions on how to use them -->
+
+## Bug Fixes
+
+<!-- Here goes notable bug fixes that are worth a special mention or explanation -->
