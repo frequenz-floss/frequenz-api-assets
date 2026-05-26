@@ -88,8 +88,8 @@ message ListMicrogridsRequest {
   // Filters for selecting microgrids.
   //
   // A microgrid must match all specified filter fields to be included in the
-  // response. The current enterprise scope is always applied in addition to these
-  // filters.
+  // response. The current enterprise scope is always applied in addition to
+  // these filters.
   //
   // !!! note "Filter Semantics"
   //     Each repeated field is evaluated using logical OR. Different filter
@@ -104,8 +104,8 @@ message ListMicrogridsRequest {
     // If empty, no microgrid-ID filtering is applied.
     repeated uint64 microgrid_ids = 1;
 
-    // Optional. Return only microgrids assigned to any of these Gridpools within
-    // the current enterprise scope.
+    // Optional. Return only microgrids assigned to any of these Gridpools
+    // within the current enterprise scope.
     //
     // If empty, no Gridpool-ID filtering is applied.
     repeated uint64 gridpool_ids = 2;
