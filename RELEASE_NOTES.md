@@ -2,15 +2,19 @@
 
 ## Summary
 
-Documentation improvement
-Rename service
+This release adds `ListMicrogrids` and `GetGridpool` to
+`frequenz.api.platformassets.v1alpha1`.
 
 ## Upgrading
 
-- Improved ListMicrogridElectricalComponentConnectionsRequest header doc
-- Rename service
-- Introduced new version
+- `frequenz.api.platformassets.v1alpha1.PlatformAssetsService` now includes
+  `ListMicrogrids`.
+- `frequenz.api.platformassets.v1alpha1` includes the `GetGridpool`
+  request/response messages and RPC.
+- `frequenz.api.platformassets.v1alpha1` remains a separate versioned package
+  with the renamed `PlatformAssetsService`.
 
 ## New Features
 
-n/a
+- Add the `ListMicrogrids` RPC to the `PlatformAssetsService` service.
+- Add the `GetGridpool` RPC to the `PlatformAssetsService` service.

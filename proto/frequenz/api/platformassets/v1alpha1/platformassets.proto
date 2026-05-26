@@ -13,6 +13,8 @@ syntax = "proto3";
 package frequenz.api.platformassets.v1alpha1;
 
 // protolint:disable:next MAX_LINE_LENGTH
+import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
+// protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
 import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
 
@@ -36,6 +38,12 @@ import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
 //     over TLS (HTTPS).
 //
 service PlatformAssetsService {
+  // Returns metadata for all microgrids visible to the caller.
+  rpc ListMicrogrids(ListMicrogridsRequest) returns (ListMicrogridsResponse);
+
+  // Returns metadata for a specific gridpool.
+  rpc GetGridpool(GetGridpoolRequest) returns (GetGridpoolResponse);
+
   // Returns metadata for a specific microgrid.
   rpc GetMicrogrid(GetMicrogridRequest) returns (GetMicrogridResponse);
 
@@ -49,6 +57,30 @@ service PlatformAssetsService {
   rpc ListMicrogridElectricalComponentConnections(
       ListMicrogridElectricalComponentConnectionsRequest)
       returns (ListMicrogridElectricalComponentConnectionsResponse);
+}
+
+// Request message for listing all visible microgrids.
+message ListMicrogridsRequest {
+}
+
+// Response message containing all visible microgrids.
+message ListMicrogridsResponse {
+  // Microgrids visible to the caller.
+  repeated frequenz.api.common.v1alpha8.microgrid.Microgrid microgrids = 1;
+}
+
+// Request message for retrieving metadata for a specific gridpool.
+message GetGridpoolRequest {
+  // The unique identifier of the gridpool for which to fetch details.
+  uint64 gridpool_id = 1;
+}
+
+// Response message containing metadata for a specific gridpool.
+message GetGridpoolResponse {
+  // Details of the requested gridpool.
+  frequenz.api.common.v1alpha8.gridpool.Gridpool gridpool = 1;
+  // Microgrids belonging to the requested gridpool.
+  repeated frequenz.api.common.v1alpha8.microgrid.Microgrid microgrids = 2;
 }
 
 // Filters for selecting electrical component connections in a microgrid.
