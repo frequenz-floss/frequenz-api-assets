@@ -37,8 +37,8 @@ import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
 //     over TLS (HTTPS).
 //
 service PlatformAssetsService {
-  // Returns metadata for a specific gridpool.
-  rpc GetGridpool(GetGridpoolRequest) returns (GetGridpoolResponse);
+  // Lists Gridpools within the current enterprise scope.
+  rpc ListGridpools(ListGridpoolsRequest) returns (ListGridpoolsResponse);
 
   // Returns metadata for a specific microgrid.
   rpc GetMicrogrid(GetMicrogridRequest) returns (GetMicrogridResponse);
@@ -58,16 +58,38 @@ service PlatformAssetsService {
       returns (ListMicrogridElectricalComponentConnectionsResponse);
 }
 
-// Request message for retrieving metadata for a specific gridpool.
-message GetGridpoolRequest {
-  // The unique identifier of the gridpool for which to fetch details.
-  uint64 gridpool_id = 1;
+// Request message for listing Gridpools within the current enterprise scope.
+message ListGridpoolsRequest {
+  // Filters for selecting Gridpools.
+  //
+  // A Gridpool must match all specified filter fields to be included in the
+  // response. The current enterprise scope is always applied in addition to
+  // these filters.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all Gridpools within the current enterprise scope are returned.
+  //
+  message GridpoolsFilter {
+    // Optional. Return only Gridpools whose IDs are included in this list and
+    // are within the current enterprise scope.
+    //
+    // If empty, no Gridpool-ID filtering is applied.
+    repeated uint64 gridpool_ids = 1;
+  }
+
+  // Optional. Filtering criteria for narrowing the returned Gridpools.
+  //
+  // If omitted, all Gridpools within the current enterprise scope are returned.
+  GridpoolsFilter filter = 1;
 }
 
-// Response message containing metadata for a specific gridpool.
-message GetGridpoolResponse {
-  // Details of the requested gridpool.
-  frequenz.api.common.v1alpha8.gridpool.Gridpool gridpool = 1;
+// Response message containing Gridpool metadata.
+message ListGridpoolsResponse {
+  // Gridpools matching the request filters within the current enterprise
+  // scope.
+  repeated frequenz.api.common.v1alpha8.gridpool.Gridpool gridpools = 1;
 }
 
 // Request message for retrieving metadata for a specific microgrid.
