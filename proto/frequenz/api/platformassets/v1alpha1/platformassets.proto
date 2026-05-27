@@ -12,7 +12,6 @@ syntax = "proto3";
 
 package frequenz.api.platformassets.v1alpha1;
 
-// protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
 // protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
@@ -31,21 +30,21 @@ import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
 // identifiers into their associated metadata.
 //
 // !!! important "Authentication"
-//     All requests to FlexMarketService must be signed. The key identifier and
-//     signature must be included in the request metadata (gRPC metadata /
+//     All requests to PlatformAssetsService must be signed. The key identifier
+//     and signature must be included in the request metadata (gRPC metadata /
 //     HTTP headers). The signature must be computed using the HMAC-SHA256
 //     algorithm and secret key. All requests to this service must be made
 //     over TLS (HTTPS).
 //
 service PlatformAssetsService {
-  // Returns metadata for all microgrids visible to the caller.
-  rpc ListMicrogrids(ListMicrogridsRequest) returns (ListMicrogridsResponse);
-
-  // Returns metadata for a specific gridpool.
-  rpc GetGridpool(GetGridpoolRequest) returns (GetGridpoolResponse);
+  // Lists Gridpools within the current enterprise scope.
+  rpc ListGridpools(ListGridpoolsRequest) returns (ListGridpoolsResponse);
 
   // Returns metadata for a specific microgrid.
   rpc GetMicrogrid(GetMicrogridRequest) returns (GetMicrogridResponse);
+
+  // Lists microgrids within the current enterprise scope.
+  rpc ListMicrogrids(ListMicrogridsRequest) returns (ListMicrogridsResponse);
 
   // Lists electrical components for a specific microgrid.
   rpc ListMicrogridElectricalComponents(
@@ -59,82 +58,38 @@ service PlatformAssetsService {
       returns (ListMicrogridElectricalComponentConnectionsResponse);
 }
 
-// Request message for listing all visible microgrids.
-message ListMicrogridsRequest {
-}
-
-// Response message containing all visible microgrids.
-message ListMicrogridsResponse {
-  // Microgrids visible to the caller.
-  repeated frequenz.api.common.v1alpha8.microgrid.Microgrid microgrids = 1;
-}
-
-// Request message for retrieving metadata for a specific gridpool.
-message GetGridpoolRequest {
-  // The unique identifier of the gridpool for which to fetch details.
-  uint64 gridpool_id = 1;
-}
-
-// Response message containing metadata for a specific gridpool.
-message GetGridpoolResponse {
-  // Details of the requested gridpool.
-  frequenz.api.common.v1alpha8.gridpool.Gridpool gridpool = 1;
-  // Microgrids belonging to the requested gridpool.
-  repeated frequenz.api.common.v1alpha8.microgrid.Microgrid microgrids = 2;
-}
-
-// Filters for selecting electrical component connections in a microgrid.
-//
-// A connection must match all specified filter fields to be included in the
-// response.
-//
-// !!! note "Filter Semantics"
-//     Each repeated field is evaluated using logical OR.
-//
-//     Different filter fields are combined using logical AND.
-//
-//     If no filters are provided, all known electrical connections in the
-//     microgrid are returned.
-//
-message MicrogridElectricalComponentConnectionsFilter {
-  // Optional. Return only connections whose source component ID is included in
-  // this list.
+// Request message for listing Gridpools within the current enterprise scope.
+message ListGridpoolsRequest {
+  // Filters for selecting Gridpools.
   //
-  // If empty, connections from any source component are returned.
-  repeated uint64 source_component_ids = 1;
-
-  // Optional. Return only connections whose destination component ID is
-  // included in this list.
+  // A Gridpool must match all specified filter fields to be included in the
+  // response. The current enterprise scope is always applied in addition to
+  // these filters.
   //
-  // If empty, connections to any destination component are returned.
-  repeated uint64 destination_component_ids = 2;
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all Gridpools within the current enterprise scope are returned.
+  //
+  message GridpoolsFilter {
+    // Optional. Return only Gridpools whose IDs are included in this list and
+    // are within the current enterprise scope.
+    //
+    // If empty, no Gridpool-ID filtering is applied.
+    repeated uint64 gridpool_ids = 1;
+  }
+
+  // Optional. Filtering criteria for narrowing the returned Gridpools.
+  //
+  // If omitted, all Gridpools within the current enterprise scope are returned.
+  GridpoolsFilter filter = 1;
 }
 
-// Filters for selecting electrical components in a microgrid.
-//
-// An electrical component must match all specified filter fields to be
-// included in the response.
-//
-// !!! note "Filter Semantics"
-//     Each repeated field is evaluated using logical OR.
-//
-//     Different filter fields are combined using logical AND.
-//
-//     If no filters are provided, all electrical components in the microgrid
-//     are returned.
-//
-message MicrogridElectricalComponentsFilter {
-  // Optional. Return only components whose IDs are included in this list.
-  //
-  // If empty, no component-ID filtering is applied.
-  repeated uint64 component_ids = 1;
-
-  // Optional. Return only components whose categories are included in this
-  // list.
-  //
-  // If empty, no category filtering is applied.
-  repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.
-      ElectricalComponentCategory categories = 2;
+// Response message containing Gridpool metadata.
+message ListGridpoolsResponse {
+  // Gridpools matching the request filters within the current enterprise
+  // scope.
+  repeated frequenz.api.common.v1alpha8.gridpool.Gridpool gridpools = 1;
 }
 
 // Request message for retrieving metadata for a specific microgrid.
@@ -149,8 +104,83 @@ message GetMicrogridResponse {
   frequenz.api.common.v1alpha8.microgrid.Microgrid microgrid = 1;
 }
 
+// Request message for listing microgrids accessible through the authenticated
+// client's enterprise-scoped authorization context.
+message ListMicrogridsRequest {
+  // Filters for selecting microgrids.
+  //
+  // A microgrid must match all specified filter fields to be included in the
+  // response. The current enterprise scope is always applied in addition to
+  // these filters.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all microgrids within the current enterprise
+  //     scope are returned.
+  //
+  message MicrogridsFilter {
+    // Optional. Return only microgrids whose IDs are included in this list and
+    // are within the current enterprise scope.
+    //
+    // If empty, no microgrid-ID filtering is applied.
+    repeated uint64 microgrid_ids = 1;
+
+    // Optional. Return only microgrids assigned to any of these Gridpools
+    // within the current enterprise scope.
+    //
+    // If empty, no Gridpool-ID filtering is applied.
+    repeated uint64 gridpool_ids = 2;
+  }
+
+  // Optional. Filtering criteria for narrowing the returned microgrids.
+  //
+  // If omitted, all microgrids accessible through the authenticated client's
+  // enterprise-scoped authorization context are returned.
+  MicrogridsFilter filter = 1;
+}
+
+// Response message containing microgrid metadata.
+//
+// The response contains microgrids matching the requested filters within the
+// current enterprise-scoped context. If no matching microgrids are available
+// in that context, `microgrids` is empty.
+//
+message ListMicrogridsResponse {
+  // Microgrids matching the request filters within the current
+  // enterprise-scope.
+  repeated frequenz.api.common.v1alpha8.microgrid.Microgrid microgrids = 1;
+}
+
 // Request parameters for the RPC `ListMicrogridElectricalComponents`.
 message ListMicrogridElectricalComponentsRequest {
+  // Filters for selecting electrical components in a microgrid.
+  //
+  // An electrical component must match all specified filter fields to be
+  // included in the response.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR.
+  //
+  //     Different filter fields are combined using logical AND.
+  //
+  //     If no filters are provided, all electrical components in the microgrid
+  //     are returned.
+  //
+  message MicrogridElectricalComponentsFilter {
+    // Optional. Return only components whose IDs are included in this list.
+    //
+    // If empty, no component-ID filtering is applied.
+    repeated uint64 component_ids = 1;
+
+    // Optional. Return only components whose categories are included in this
+    // list.
+    //
+    // If empty, no category filtering is applied.
+    repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.
+        ElectricalComponentCategory categories = 2;
+  }
+
   // Mandatory field. The ID of the microgrid for which components
   // are to be listed.
   uint64 microgrid_id = 1;
@@ -190,6 +220,33 @@ message ListMicrogridElectricalComponentsResponse {
 //     electrical energy flows within the microgrid.
 //
 message ListMicrogridElectricalComponentConnectionsRequest {
+  // Filters for selecting electrical component connections in a microgrid.
+  //
+  // A connection must match all specified filter fields to be included in the
+  // response.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR.
+  //
+  //     Different filter fields are combined using logical AND.
+  //
+  //     If no filters are provided, all known electrical connections in the
+  //     microgrid are returned.
+  //
+  message MicrogridElectricalComponentConnectionsFilter {
+    // Optional. Return only connections whose source component ID is
+    // included in this list.
+    //
+    // If empty, connections from any source component are returned.
+    repeated uint64 source_component_ids = 1;
+
+    // Optional. Return only connections whose destination component ID is
+    // included in this list.
+    //
+    // If empty, connections to any destination component are returned.
+    repeated uint64 destination_component_ids = 2;
+  }
+
   // The unique identifier of the microgrid whose electrical component
   // connections should be listed.
   uint64 microgrid_id = 1;
@@ -204,6 +261,7 @@ message ListMicrogridElectricalComponentConnectionsRequest {
 //
 // The response contains all connections matching the requested filters. If no
 // connection matches the filters, `connections` is empty.
+//
 message ListMicrogridElectricalComponentConnectionsResponse {
   // The unique identifier of the microgrid the returned connections belong to.
   uint64 microgrid_id = 1;
