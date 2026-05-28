@@ -1020,6 +1020,39 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gridpoolassignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolAssignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolassignmentsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolAssignmentsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolassignmentsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolAssignmentsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#listgridpoolsrequest" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1902,6 +1935,39 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#gridpoolassignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolAssignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolassignmentsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolAssignmentsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolassignmentsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolAssignmentsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#listgridpoolsrequest" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2089,6 +2155,9 @@
 <ul>
 <li><a href="#frequenz-api-platformassets-v1alpha1-GetMicrogridRequest">GetMicrogridRequest</a></li>
 <li><a href="#frequenz-api-platformassets-v1alpha1-GetMicrogridResponse">GetMicrogridResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-GridpoolAssignment">GridpoolAssignment</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolAssignmentsRequest">ListGridpoolAssignmentsRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolAssignmentsResponse">ListGridpoolAssignmentsResponse</a></li>
 <li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest">ListGridpoolsRequest</a></li>
 <li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest-GridpoolsFilter">ListGridpoolsRequest.GridpoolsFilter</a></li>
 <li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsResponse">ListGridpoolsResponse</a></li>
@@ -2155,6 +2224,93 @@
 <td><a href="#frequenz-api-common-v1alpha8-microgrid-Microgrid">frequenz.api.common.v1alpha8.microgrid.Microgrid</a></td>
 <td></td>
 <td>Details of the requested microgrid.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-GridpoolAssignment"></a></p>
+<h3 id="gridpoolassignment">GridpoolAssignment<a class="headerlink" href="#gridpoolassignment" title="Permanent link">¤</a></h3>
+<p>Describes a structural assignment within a Gridpool.</p>
+<p>A Gridpool assignment represents one row of membership in a virtual
+balancing group. It can reference a Market Location, a Microgrid, or both.</p>
+<p>A Market Location is the commercial/regulatory metering point used for
+settlement, balancing-group allocation, forecasting, and measured energy
+flows. A Microgrid is the technical/control representation of a site or
+energy system.</p>
+<p>Market Locations and Microgrids can exist independently. Therefore, neither
+resource owns the relationship. The assignment is the association record.</p>
+<p>!!! important &#34;Validation&#34;
+    At least one of <code>market_location_selector</code> or <code>microgrid_id</code> must be set.
+    Both fields may be set when the Market Location and Microgrid are linked
+    in this Gridpool context.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>market_location_selector</td>
+<td><a href="#frequenz-api-common-v1alpha8-market-MarketLocationSelector">frequenz.api.common.v1alpha8.market.MarketLocationSelector</a></td>
+<td></td>
+<td>Optional. The Market Location associated with this assignment.</td>
+</tr>
+</tbody>
+</table>
+<p>The Market Location is the official metering point that describes measured energy flows into or out of the virtual balancing group.</p>
+<p>This field can be set without <code>microgrid_id</code> if the Market Location is assigned to the Gridpool before a Microgrid deployment exists. |
+| microgrid_id | <a href="#uint64">uint64</a> | optional | Optional. The Microgrid associated with this assignment.</p>
+<p>The Microgrid is the technical/control representation of a site or energy system.</p>
+<p>This field can be set without <code>market_location_selector</code> if the Microgrid is assigned to the Gridpool independently of a directly managed Market Location. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolAssignmentsRequest"></a></p>
+<h3 id="listgridpoolassignmentsrequest">ListGridpoolAssignmentsRequest<a class="headerlink" href="#listgridpoolassignmentsrequest" title="Permanent link">¤</a></h3>
+<p>Request message for listing Gridpool assignments within the current
+enterprise scope.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpool_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the Gridpool for which to fetch assignments.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolAssignmentsResponse"></a></p>
+<h3 id="listgridpoolassignmentsresponse">ListGridpoolAssignmentsResponse<a class="headerlink" href="#listgridpoolassignmentsresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing Gridpool assignments.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpool_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the Gridpool this assignment belongs to.</td>
+</tr>
+<tr>
+<td>assignments</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-GridpoolAssignment">GridpoolAssignment</a></td>
+<td>repeated</td>
+<td>Gridpool assignments matching the request filters within the current enterprise scope.</td>
 </tr>
 </tbody>
 </table>
@@ -2424,8 +2580,7 @@ are returned.
 </table>
 <p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridsRequest"></a></p>
 <h3 id="listmicrogridsrequest">ListMicrogridsRequest<a class="headerlink" href="#listmicrogridsrequest" title="Permanent link">¤</a></h3>
-<p>Request message for listing microgrids accessible through the authenticated
-client&#39;s enterprise-scoped authorization context.</p>
+<p>Request message for listing microgrids within the current enterprise scope.</p>
 <table>
 <thead>
 <tr>
@@ -2533,6 +2688,12 @@ identifiers into their associated metadata.</p>
 <td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest">ListGridpoolsRequest</a></td>
 <td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsResponse">ListGridpoolsResponse</a></td>
 <td>Lists Gridpools within the current enterprise scope.</td>
+</tr>
+<tr>
+<td>ListGridpoolAssignments</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolAssignmentsRequest">ListGridpoolAssignmentsRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolAssignmentsResponse">ListGridpoolAssignmentsResponse</a></td>
+<td>Lists market locations and/or microgrids that are assigned to a specific Gridpool.</td>
 </tr>
 <tr>
 <td>GetMicrogrid</td>
