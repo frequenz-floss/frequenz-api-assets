@@ -2,15 +2,16 @@
 
 ## Summary
 
-This release introduces Gridpool assignment discovery to the Platform Assets API.
+This release introduces energy schedule retrieval and receiving of sensor 
+metadata.
 
 ## Upgrading
 
-- Minor documentation changes.
+- Import path changes from Frequenz Common API
 
 ## New Features
 
-- New ListGridpoolAssignments RPC has been added
+- New ListGridpoolEnergySchedules and ListMicrogridSensors RPCs have been added
 
 ## Bug Fixes
 

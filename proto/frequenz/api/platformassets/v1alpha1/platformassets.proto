@@ -12,11 +12,17 @@ syntax = "proto3";
 
 package frequenz.api.platformassets.v1alpha1;
 
+import "frequenz/api/common/v1alpha8/grid/balancing_group.proto";
+import "frequenz/api/common/v1alpha8/grid/delivery_area.proto";
+import "frequenz/api/common/v1alpha8/grid/market_location.proto";
 import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
-import "frequenz/api/common/v1alpha8/market/market_location.proto";
 // protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
 import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
+import "frequenz/api/common/v1alpha8/microgrid/sensors/sensors.proto";
+import "frequenz/api/common/v1alpha8/types/interval.proto";
+
+import "google/protobuf/timestamp.proto";
 
 // PlatformAssetsService provides read-only access to platform asset metadata.
 //
@@ -46,6 +52,10 @@ service PlatformAssetsService {
   rpc ListGridpoolAssignments(ListGridpoolAssignmentsRequest)
       returns (ListGridpoolAssignmentsResponse);
 
+  // Lists energy schedules for a specific Gridpool.
+  rpc ListGridpoolEnergySchedules(ListGridpoolEnergySchedulesRequest)
+      returns (ListGridpoolEnergySchedulesResponse);
+
   // Returns metadata for a specific microgrid.
   rpc GetMicrogrid(GetMicrogridRequest) returns (GetMicrogridResponse);
 
@@ -62,6 +72,39 @@ service PlatformAssetsService {
   rpc ListMicrogridElectricalComponentConnections(
       ListMicrogridElectricalComponentConnectionsRequest)
       returns (ListMicrogridElectricalComponentConnectionsResponse);
+
+  // Lists sensors for a specific microgrid.
+  rpc ListMicrogridSensors(ListMicrogridSensorsRequest)
+      returns (ListMicrogridSensorsResponse);
+}
+
+// Describes the direction of a scheduled energy exchange from the perspective
+// of the Frequenz balancing group.
+enum GridpoolEnergyScheduleDirection {
+  // UNSPECIFIED: Unspecified energy schedule direction.
+  GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_UNSPECIFIED = 0;
+
+  // IMPORT: Energy is imported into the Frequenz balancing group from a
+  // third-party balancing group.
+  GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_IMPORT = 1;
+
+  // EXPORT: Energy is exported from the Frequenz balancing group to a
+  // third-party balancing group.
+  GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_EXPORT = 2;
+}
+
+// Describes whether a Gridpool energy schedule is active.
+enum GridpoolEnergyScheduleStatus {
+  // UNSPECIFIED: Unspecified energy schedule status.
+  GRIDPOOL_ENERGY_SCHEDULE_STATUS_UNSPECIFIED = 0;
+
+  // ACTIVE: The energy schedule is active and should be considered by trading
+  // and forecasting applications.
+  GRIDPOOL_ENERGY_SCHEDULE_STATUS_ACTIVE = 1;
+
+  // INACTIVE: The energy schedule is inactive and should not be considered by
+  // trading and forecasting applications.
+  GRIDPOOL_ENERGY_SCHEDULE_STATUS_INACTIVE = 2;
 }
 
 // Describes a structural assignment within a Gridpool.
@@ -90,7 +133,7 @@ message GridpoolAssignment {
   //
   // This field can be set without `microgrid_id` if the Market Location is
   // assigned to the Gridpool before a Microgrid deployment exists.
-  frequenz.api.common.v1alpha8.market.MarketLocationSelector
+  frequenz.api.common.v1alpha8.grid.MarketLocationSelector
       market_location_selector = 1;
 
   // Optional. The Microgrid associated with this assignment.
@@ -102,6 +145,69 @@ message GridpoolAssignment {
   // is assigned to the Gridpool independently of a directly managed Market
   // Location.
   optional uint64 microgrid_id = 2;
+}
+
+// A scheduled active-power value for one delivery period.
+message GridpoolEnergyScheduleTimeSeriesEntry {
+  // Start timestamp of the scheduled delivery value.
+  //
+  // This timestamp is inclusive.
+  //
+  // The schedule source data contains start timestamps only. The duration of
+  // the delivery value is therefore not represented explicitly by this message.
+  google.protobuf.Timestamp start_time = 1;
+
+  // Scheduled active power in watts.
+  double active_power_w = 3;
+}
+
+// Describes a static energy schedule associated with a Gridpool.
+//
+// A Gridpool schedule represents a planned energy exchange between the
+// Frequenz balancing group and a third-party balancing group. It is usually
+// based on a static contractual delivery, such as an OTC contract or a
+// baseline PPA.
+//
+// !!! note "Static schedules"
+//     Gridpool schedules represent fixed or pre-agreed delivery quantities.
+//     They are accounted for separately from spot-market optimization and do
+//     not describe pay-as-produced or otherwise dynamically changing delivery
+//     positions.
+//
+// !!! note "Direction"
+//     The schedule direction is always expressed from the perspective of the
+//     Frequenz balancing group. `IMPORT` means energy is imported into the
+//     Frequenz balancing group. `EXPORT` means energy is exported from the
+//     Frequenz balancing group.
+//
+message GridpoolEnergySchedule {
+  // Unique identifier of the Gridpool the energy schedule belongs to.
+  uint64 gridpool_id = 1;
+
+  // Unique identifier of the energy schedule.
+  uint64 schedule_id = 2;
+
+  // Human-readable name of the energy schedule.
+  string name = 3;
+
+  // The third-party balancing group involved in the scheduled energy exchange.
+  BalancingGroup counterparty_balancing_group = 4;
+
+  // Delivery area in which the scheduled energy exchange applies.
+  frequenz.api.common.v1alpha8.grid.DeliveryArea delivery_area = 5;
+
+  // Direction of the scheduled energy exchange from the perspective of the
+  // Frequenz balancing group.
+  GridpoolEnergyScheduleDirection direction = 6;
+
+  // Current status of the energy schedule.
+  GridpoolEnergyScheduleStatus status = 7;
+
+  // Validity interval of the schedule configuration.
+  frequenz.api.common.v1alpha8.types.Interval validity_period = 8;
+
+  // Scheduled active-power values.
+  repeated GridpoolEnergyScheduleTimeSeriesEntry time_series = 9;
 }
 
 // Request message for listing Gridpools within the current enterprise scope.
@@ -153,6 +259,67 @@ message ListGridpoolAssignmentsResponse {
   // Gridpool assignments matching the request filters within the current
   // enterprise scope.
   repeated GridpoolAssignment assignments = 2;
+}
+
+// Request message for listing schedules for a specific Gridpool.
+message ListGridpoolEnergySchedulesRequest {
+  // Filters for selecting Gridpool schedules.
+  //
+  // A schedule must match all specified filter fields to be included in the
+  // response. The current enterprise scope is always applied in addition to
+  // these filters.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all schedules for the requested Gridpool within the current
+  //     enterprise scope are returned.
+  //
+  message GridpoolEnergySchedulesFilter {
+    // Optional. Return only schedules whose IDs are included in this list.
+    //
+    // If empty, no schedule-ID filtering is applied.
+    repeated uint64 schedule_ids = 1;
+
+    // Optional. Return only schedule entries whose delivery periods overlap
+    // this interval.
+    //
+    // If omitted, no delivery-period filtering is applied.
+    frequenz.api.common.v1alpha8.types.Interval delivery_period = 2;
+
+    // Optional. Return only energy schedules with one of these statuses.
+    //
+    // If empty, no status filtering is applied.
+    repeated GridpoolEnergyScheduleStatus statuses = 3;
+
+    // Optional. Return only schedules with one of these directions.
+    //
+    // If empty, no direction filtering is applied.
+    repeated GridpoolEnergyScheduleDirection directions = 4;
+  }
+
+  // The unique identifier of the Gridpool whose schedules should be listed.
+  uint64 gridpool_id = 1;
+
+  // Optional. Filtering criteria for narrowing the returned schedules.
+  //
+  // If omitted, all schedules for the requested Gridpool within the current
+  // enterprise scope are returned.
+  GridpoolEnergySchedulesFilter filter = 2;
+}
+
+// Response message containing Gridpool schedules.
+//
+// The response contains schedules for the requested Gridpool matching the
+// requested filters within the current enterprise scope. If no matching
+// schedules are available in that scope, `schedules` is empty.
+message ListGridpoolEnergySchedulesResponse {
+  // The unique identifier of the Gridpool the returned schedules belong to.
+  uint64 gridpool_id = 1;
+
+  // Schedules matching the request filters within the current enterprise
+  // scope.
+  repeated GridpoolEnergySchedule schedules = 2;
 }
 
 // Request message for retrieving metadata for a specific microgrid.
@@ -222,12 +389,9 @@ message ListMicrogridElectricalComponentsRequest {
   // included in the response.
   //
   // !!! note "Filter Semantics"
-  //     Each repeated field is evaluated using logical OR.
-  //
-  //     Different filter fields are combined using logical AND.
-  //
-  //     If no filters are provided, all electrical components in the microgrid
-  //     are returned.
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all electrical components in the microgrid are returned.
   //
   message MicrogridElectricalComponentsFilter {
     // Optional. Return only components whose IDs are included in this list.
@@ -288,12 +452,9 @@ message ListMicrogridElectricalComponentConnectionsRequest {
   // response.
   //
   // !!! note "Filter Semantics"
-  //     Each repeated field is evaluated using logical OR.
-  //
-  //     Different filter fields are combined using logical AND.
-  //
-  //     If no filters are provided, all known electrical connections in the
-  //     microgrid are returned.
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all known electrical connections in the microgrid are returned.
   //
   message MicrogridElectricalComponentConnectionsFilter {
     // Optional. Return only connections whose source component ID is
@@ -331,4 +492,39 @@ message ListMicrogridElectricalComponentConnectionsResponse {
   // Electrical component connections matching the request filters.
   repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.
       ElectricalComponentConnection connections = 2;
+}
+
+// Request message for listing sensors in a microgrid.
+message ListMicrogridSensorsRequest {
+  // Filters for selecting sensors in a microgrid.
+  //
+  // A sensor must match all specified filter fields to be included in the
+  // response.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all sensors in the microgrid are returned.
+  //
+  message MicrogridSensorsFilter {
+    // Optional. Return only sensors whose IDs are included in this list.
+    repeated uint64 sensor_ids = 1;
+  }
+
+  // The unique identifier of the microgrid whose sensors should be listed.
+  uint64 microgrid_id = 1;
+
+  // Optional. Filtering criteria for narrowing the returned sensors.
+  //
+  // If omitted, all sensors in the microgrid are returned.
+  MicrogridSensorsFilter filter = 2;
+}
+
+// Response message containing sensors for a microgrid.
+message ListMicrogridSensorsResponse {
+  // The unique identifier of the microgrid the returned sensors belong to.
+  uint64 microgrid_id = 1;
+
+  // Sensors matching the request filters.
+  repeated frequenz.api.common.v1alpha8.microgrid.sensors.Sensor sensors = 2;
 }
