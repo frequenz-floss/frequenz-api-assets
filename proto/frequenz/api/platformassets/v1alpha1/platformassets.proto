@@ -1,6 +1,6 @@
 // Frequenz Assets API
 //
-// Frequenz gRPC API to retrieval platform assets information.
+// Frequenz gRPC API for retrieving platform asset information.
 //
 // Copyright:
 // Copyright 2025 Frequenz Energy-as-a-Service GmbH
@@ -13,6 +13,7 @@ syntax = "proto3";
 package frequenz.api.platformassets.v1alpha1;
 
 import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
+import "frequenz/api/common/v1alpha8/market/market_location.proto";
 // protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
 import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
@@ -40,6 +41,11 @@ service PlatformAssetsService {
   // Lists Gridpools within the current enterprise scope.
   rpc ListGridpools(ListGridpoolsRequest) returns (ListGridpoolsResponse);
 
+  // Lists market locations and/or microgrids that are assigned to a
+  // specific Gridpool.
+  rpc ListGridpoolAssignments(ListGridpoolAssignmentsRequest)
+      returns (ListGridpoolAssignmentsResponse);
+
   // Returns metadata for a specific microgrid.
   rpc GetMicrogrid(GetMicrogridRequest) returns (GetMicrogridResponse);
 
@@ -56,6 +62,46 @@ service PlatformAssetsService {
   rpc ListMicrogridElectricalComponentConnections(
       ListMicrogridElectricalComponentConnectionsRequest)
       returns (ListMicrogridElectricalComponentConnectionsResponse);
+}
+
+// Describes a structural assignment within a Gridpool.
+//
+// A Gridpool assignment represents one row of membership in a virtual
+// balancing group. It can reference a Market Location, a Microgrid, or both.
+//
+// A Market Location is the commercial/regulatory metering point used for
+// settlement, balancing-group allocation, forecasting, and measured energy
+// flows. A Microgrid is the technical/control representation of a site or
+// energy system.
+//
+// Market Locations and Microgrids can exist independently. Therefore, neither
+// resource owns the relationship. The assignment is the association record.
+//
+// !!! important "Validation"
+//     At least one of `market_location_selector` or `microgrid_id` must be set.
+//     Both fields may be set when the Market Location and Microgrid are linked
+//     in this Gridpool context.
+//
+message GridpoolAssignment {
+  // Optional. The Market Location associated with this assignment.
+  //
+  // The Market Location is the official metering point that describes measured
+  // energy flows into or out of the virtual balancing group.
+  //
+  // This field can be set without `microgrid_id` if the Market Location is
+  // assigned to the Gridpool before a Microgrid deployment exists.
+  frequenz.api.common.v1alpha8.market.MarketLocationSelector
+      market_location_selector = 1;
+
+  // Optional. The Microgrid associated with this assignment.
+  //
+  // The Microgrid is the technical/control representation of a site or energy
+  // system.
+  //
+  // This field can be set without `market_location_selector` if the Microgrid
+  // is assigned to the Gridpool independently of a directly managed Market
+  // Location.
+  optional uint64 microgrid_id = 2;
 }
 
 // Request message for listing Gridpools within the current enterprise scope.
@@ -92,6 +138,23 @@ message ListGridpoolsResponse {
   repeated frequenz.api.common.v1alpha8.gridpool.Gridpool gridpools = 1;
 }
 
+// Request message for listing Gridpool assignments within the current
+// enterprise scope.
+message ListGridpoolAssignmentsRequest {
+  // The unique identifier of the Gridpool for which to fetch assignments.
+  uint64 gridpool_id = 1;
+}
+
+// Response message containing Gridpool assignments.
+message ListGridpoolAssignmentsResponse {
+  // The unique identifier of the Gridpool this assignment belongs to.
+  uint64 gridpool_id = 1;
+
+  // Gridpool assignments matching the request filters within the current
+  // enterprise scope.
+  repeated GridpoolAssignment assignments = 2;
+}
+
 // Request message for retrieving metadata for a specific microgrid.
 message GetMicrogridRequest {
   // The unique identifier of the microgrid for which to fetch details.
@@ -104,8 +167,7 @@ message GetMicrogridResponse {
   frequenz.api.common.v1alpha8.microgrid.Microgrid microgrid = 1;
 }
 
-// Request message for listing microgrids accessible through the authenticated
-// client's enterprise-scoped authorization context.
+// Request message for listing microgrids within the current enterprise scope.
 message ListMicrogridsRequest {
   // Filters for selecting microgrids.
   //
