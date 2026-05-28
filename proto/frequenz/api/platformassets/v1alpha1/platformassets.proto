@@ -191,7 +191,8 @@ message GridpoolEnergySchedule {
   string name = 3;
 
   // The third-party balancing group involved in the scheduled energy exchange.
-  BalancingGroup counterparty_balancing_group = 4;
+  frequenz.api.common.v1alpha8.grid.BalancingGroup
+      counterparty_balancing_group = 4;
 
   // Delivery area in which the scheduled energy exchange applies.
   frequenz.api.common.v1alpha8.grid.DeliveryArea delivery_area = 5;
