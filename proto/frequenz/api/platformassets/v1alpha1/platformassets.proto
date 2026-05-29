@@ -297,8 +297,14 @@ message GridpoolEnergySchedule {
   // The original configured end time remains available in `validity_period`.
   google.protobuf.Timestamp cancel_time = 9;
 
+  // Delivery duration used by all time-series entries in this schedule.
+  //
+  // Each `time_series` entry applies from `entry.start_time` until
+  // `entry.start_time + delivery_duration`.
+  frequenz.api.common.v1alpha8.grid.DeliveryDuration delivery_duration = 10;
+
   // Scheduled active-power values.
-  repeated GridpoolEnergyScheduleTimeSeriesEntry time_series = 10;
+  repeated GridpoolEnergyScheduleTimeSeriesEntry time_series = 11;
 }
 
 // Request message for listing Gridpools within the current enterprise scope.
@@ -381,7 +387,22 @@ message ListGridpoolEnergySchedulesRequest {
     // this interval.
     //
     // The interval is inclusive at `start_time` and exclusive at `end_time`.
+    //
+    // If omitted, no delivery-time filtering is applied.
     frequenz.api.common.v1alpha8.types.Interval delivery_time_interval = 3;
+
+    // Optional. Return only schedules whose effective validity period overlaps
+    // this interval.
+    //
+    // The effective validity period starts at
+    // `validity_period.start_time`.
+    //
+    // If `cancel_time` is set before `validity_period.end_time`, the effective
+    // validity period ends at `cancel_time`. Otherwise, it ends at
+    // `validity_period.end_time`.
+    //
+    // If omitted, no validity-period filtering is applied.
+    frequenz.api.common.v1alpha8.types.Interval effective_validity_period = 4;
   }
 
   // The unique identifier of the Gridpool whose schedules should be listed.
