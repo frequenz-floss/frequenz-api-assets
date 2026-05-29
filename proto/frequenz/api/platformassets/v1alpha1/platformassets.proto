@@ -93,20 +93,6 @@ enum GridpoolEnergyScheduleDirection {
   GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_EXPORT = 2;
 }
 
-// Describes whether a Gridpool energy schedule is active.
-enum GridpoolEnergyScheduleStatus {
-  // UNSPECIFIED: Unspecified energy schedule status.
-  GRIDPOOL_ENERGY_SCHEDULE_STATUS_UNSPECIFIED = 0;
-
-  // ACTIVE: The energy schedule is active and should be considered by trading
-  // and forecasting applications.
-  GRIDPOOL_ENERGY_SCHEDULE_STATUS_ACTIVE = 1;
-
-  // INACTIVE: The energy schedule is inactive and should not be considered by
-  // trading and forecasting applications.
-  GRIDPOOL_ENERGY_SCHEDULE_STATUS_INACTIVE = 2;
-}
-
 // Describes a structural assignment within a Gridpool.
 //
 // A Gridpool assignment represents one row of membership in a virtual
@@ -163,22 +149,56 @@ message GridpoolEnergyScheduleTimeSeriesEntry {
 
 // Describes a static energy schedule associated with a Gridpool.
 //
-// A Gridpool schedule represents a planned energy exchange between the
-// Frequenz balancing group and a third-party balancing group. It is usually
-// based on a static contractual delivery, such as an OTC contract or a
-// baseline PPA.
+// A Gridpool energy schedule represents a planned energy exchange between the
+// Frequenz/Gridpool side and a third-party balancing group. It is usually based
+// on a static contractual delivery, such as an OTC contract or a baseline PPA.
+//
+// The schedule defines the counterparty balancing group, the delivery areas on
+// both sides of the scheduled exchange, the direction of the exchange from the
+// Frequenz balancing-group perspective, the configured validity period, and the
+// scheduled active-power values.
 //
 // !!! note "Static schedules"
-//     Gridpool schedules represent fixed or pre-agreed delivery quantities.
-//     They are accounted for separately from spot-market optimization and do
-//     not describe pay-as-produced or otherwise dynamically changing delivery
-//     positions.
+//     Gridpool energy schedules represent fixed or pre-agreed delivery
+//     quantities. They are accounted for separately from spot-market
+//     optimization and do not describe pay-as-produced or otherwise dynamically
+//     changing delivery positions.
 //
 // !!! note "Direction"
-//     The schedule direction is always expressed from the perspective of the
-//     Frequenz balancing group. `IMPORT` means energy is imported into the
-//     Frequenz balancing group. `EXPORT` means energy is exported from the
-//     Frequenz balancing group.
+//     The schedule direction is expressed from the perspective of the Frequenz
+//     balancing group.
+//
+//     `IMPORT` means energy is imported into the Frequenz balancing group from
+//     the counterparty balancing group.
+//
+//     `EXPORT` means energy is exported from the Frequenz balancing group to
+//     the counterparty balancing group.
+//
+// !!! note "Delivery areas"
+//     `gridpool_delivery_area` describes the delivery area of the
+//     Frequenz/Gridpool side of the scheduled exchange.
+//
+//     `counterparty_delivery_area` describes the delivery area of the
+//     counterparty balancing group.
+//
+//     If both delivery areas are the same, the schedule represents an internal
+//     schedule within one delivery area.
+//
+//     If they differ, the schedule represents an external schedule across
+//     delivery areas and may be subject to additional matching, nomination, and
+//     capacity-right validation.
+//
+// !!! note "Effective validity"
+//     `validity_period` describes the originally configured schedule period.
+//
+//     If `cancel_time` is set, the schedule should only be considered
+//     effective until `cancel_time`, even if `validity_period.end_time` is
+//     later. The original configured end time remains available in
+//     `validity_period`.
+//
+//     The API does not expose an active/inactive status because such a status
+//     is derived from `validity_period`, `cancel_time`, and the client's
+//     evaluation time.
 //
 message GridpoolEnergySchedule {
   // Unique identifier of the Gridpool the energy schedule belongs to.
@@ -194,21 +214,39 @@ message GridpoolEnergySchedule {
   frequenz.api.common.v1alpha8.grid.BalancingGroup
       counterparty_balancing_group = 4;
 
-  // Delivery area in which the scheduled energy exchange applies.
-  frequenz.api.common.v1alpha8.grid.DeliveryArea delivery_area = 5;
+  // Delivery area of the counterparty side of the scheduled exchange.
+  //
+  // If this is the same as `gridpool_delivery_area`, the schedule represents
+  // an internal schedule within one delivery area.
+  //
+  // If this differs from `gridpool_delivery_area`, the schedule represents an
+  // external schedule across delivery areas and may be subject to additional
+  // matching, nomination, and capacity-right validation.
+  frequenz.api.common.v1alpha8.grid.DeliveryArea counterparty_delivery_area = 5;
+
+  // Delivery area of the Frequenz/Gridpool side of the scheduled exchange.
+  //
+  // This is the delivery area in which the Frequenz balancing group
+  // participates for this schedule.
+  frequenz.api.common.v1alpha8.grid.DeliveryArea gridpool_delivery_area = 6;
 
   // Direction of the scheduled energy exchange from the perspective of the
   // Frequenz balancing group.
-  GridpoolEnergyScheduleDirection direction = 6;
-
-  // Current status of the energy schedule.
-  GridpoolEnergyScheduleStatus status = 7;
+  GridpoolEnergyScheduleDirection direction = 7;
 
   // Validity interval of the schedule configuration.
   frequenz.api.common.v1alpha8.types.Interval validity_period = 8;
 
+  // Optional. Timestamp at which the schedule was cancelled.
+  //
+  // If set, the schedule should no longer be considered effective from this
+  // timestamp onward and the effective schedule period ends at `cancel_time`.
+  //
+  // The original configured end time remains available in `validity_period`.
+  google.protobuf.Timestamp cancel_time = 9;
+
   // Scheduled active-power values.
-  repeated GridpoolEnergyScheduleTimeSeriesEntry time_series = 9;
+  repeated GridpoolEnergyScheduleTimeSeriesEntry time_series = 10;
 }
 
 // Request message for listing Gridpools within the current enterprise scope.
@@ -282,21 +320,16 @@ message ListGridpoolEnergySchedulesRequest {
     // If empty, no schedule-ID filtering is applied.
     repeated uint64 schedule_ids = 1;
 
-    // Optional. Return only schedule entries whose delivery periods overlap
-    // this interval.
-    //
-    // If omitted, no delivery-period filtering is applied.
-    frequenz.api.common.v1alpha8.types.Interval delivery_period = 2;
-
-    // Optional. Return only energy schedules with one of these statuses.
-    //
-    // If empty, no status filtering is applied.
-    repeated GridpoolEnergyScheduleStatus statuses = 3;
-
     // Optional. Return only schedules with one of these directions.
     //
     // If empty, no direction filtering is applied.
-    repeated GridpoolEnergyScheduleDirection directions = 4;
+    repeated GridpoolEnergyScheduleDirection directions = 2;
+
+    // Optional. Return only schedule entries whose `start_time` falls within this
+    // interval.
+    //
+    // The interval is inclusive at `start_time` and exclusive at `end_time`.
+    frequenz.api.common.v1alpha8.types.Interval delivery_time_interval = 3;
   }
 
   // The unique identifier of the Gridpool whose schedules should be listed.
