@@ -93,6 +93,20 @@ enum GridpoolEnergyScheduleDirection {
   GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_EXPORT = 2;
 }
 
+// Describes a use case for which a Gridpool assignment can participate.
+enum GridpoolAssignmentParticipationType {
+  // Unspecified participation type.
+  GRIDPOOL_ASSIGNMENT_PARTICIPATION_TYPE_UNSPECIFIED = 0;
+
+  // ENERGY_TRADING: The assignment participates in energy trading, supply,
+  // balancing, or settlement of scheduled and measured energy.
+  GRIDPOOL_ASSIGNMENT_PARTICIPATION_TYPE_ENERGY_TRADING = 1;
+
+  // ANCILLARY_SERVICES: The assignment participates in ancillary services or
+  // flex-market services, such as FCR, aFRR, or other grid-operator services.
+  GRIDPOOL_ASSIGNMENT_PARTICIPATION_TYPE_ANCILLARY_SERVICES = 2;
+}
+
 // Describes a structural assignment within a Gridpool.
 //
 // A Gridpool assignment represents one row of membership in a virtual
@@ -131,6 +145,44 @@ message GridpoolAssignment {
   // is assigned to the Gridpool independently of a directly managed Market
   // Location.
   optional uint64 microgrid_id = 2;
+
+  // Delivery area in which this assignment applies.
+  //
+  // The delivery area is defined in the Gridpool context because it describes
+  // where the assigned Market Location and/or Microgrid participates in the
+  // virtual balancing group.
+  frequenz.api.common.v1alpha8.grid.DeliveryArea delivery_area = 3;
+
+  // Use-case-specific participation periods for this assignment.
+  //
+  // Different use cases can become active at different times. For example,
+  // energy trading may start before ancillary services, or ancillary services
+  // may end while the Market Location remains assigned for energy trading.
+  repeated GridpoolAssignmentParticipation participations = 4;
+}
+
+// Describes the validity period of a Gridpool assignment for a specific use
+// case.
+message GridpoolAssignmentParticipation {
+  // The use case for which this assignment participates.
+  GridpoolAssignmentParticipationType type = 1;
+
+  // Optional. Configured validity interval for this participation.
+  //
+  // If omitted, no explicit start or end date has been configured for this use
+  // case. Clients must not assume that the participation is inactive only
+  // because this field is unset.
+  //
+  // If set, the interval describes when this assignment is valid for the given
+  // use case. The interval is inclusive at `start_time` and exclusive at
+  // `end_time`.
+  frequenz.api.common.v1alpha8.types.Interval validity_period = 2;
+
+  // Optional. Timestamp at which this participation was cancelled.
+  //
+  // If set, this participation should no longer be considered effective from
+  // this timestamp onward, even if `validity_period.end_time` is later.
+  optional google.protobuf.Timestamp cancel_time = 3;
 }
 
 // A scheduled active-power value for one delivery period.
@@ -325,8 +377,8 @@ message ListGridpoolEnergySchedulesRequest {
     // If empty, no direction filtering is applied.
     repeated GridpoolEnergyScheduleDirection directions = 2;
 
-    // Optional. Return only schedule entries whose `start_time` falls within this
-    // interval.
+    // Optional. Return only schedule entries whose `start_time` falls within
+    // this interval.
     //
     // The interval is inclusive at `start_time` and exclusive at `end_time`.
     frequenz.api.common.v1alpha8.types.Interval delivery_time_interval = 3;
