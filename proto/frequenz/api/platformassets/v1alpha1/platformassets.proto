@@ -14,6 +14,7 @@ package frequenz.api.platformassets.v1alpha1;
 
 import "frequenz/api/common/v1alpha8/grid/balancing_group.proto";
 import "frequenz/api/common/v1alpha8/grid/delivery_area.proto";
+import "frequenz/api/common/v1alpha8/grid/delivery_duration.proto";
 import "frequenz/api/common/v1alpha8/grid/market_location.proto";
 import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
 // protolint:disable:next MAX_LINE_LENGTH
