@@ -154,9 +154,10 @@ message MarketParticipation {
 // how official market-facing metering points, technical Microgrids, and
 // Gridpools are connected.
 //
-// A relation can exist without a Gridpool, in which case it links a Microgrid
-// to a Market Location for metering validation, reporting comparison, or local
-// optimization. Such a relation does not imply market participation.
+// A relation can exist without a Gridpool, in which case it links one
+// Microgrid to one Market Location for metering validation, reporting
+// comparison, or local optimization. A Microgrid can have multiple such
+// relations.
 //
 // When `gridpool_id` is set, the relation describes participation in a
 // Gridpool context. In that case, `delivery_area` is required and
@@ -169,6 +170,19 @@ message MarketParticipation {
 // balancing group, or when a Market Location is temporarily excluded due to
 // metering/reporting issues.
 //
+// !!! note "Multiple Market Locations per Microgrid"
+//     A Microgrid can be associated with multiple Market Locations.
+//
+//     This is common in markets where different Market Locations represent
+//     different metering or settlement roles. For example, a Microgrid can have
+//     separate Market Locations for import and export. It can also have
+//     multiple export Market Locations, for example when different feed-in
+//     assets, such as wind and solar generation, are assigned to different
+//     subsidy, settlement, or regulatory regimes.
+//
+//     Each Microgrid-to-Market-Location association is represented as a
+//     separate MarketTopologyRelation.
+//
 // !!! important "Validation"
 //     A relation must contain at least two of `gridpool_id`, `microgrid_id`,
 //     and `market_location_selector`.
@@ -180,6 +194,7 @@ message MarketParticipation {
 //     If `gridpool_id` is set, `delivery_area` is required.
 //
 //     `participations` are only valid when `gridpool_id` is set.
+//
 //
 message MarketTopologyRelation {
   // Optional. The Microgrid associated with this relation.
