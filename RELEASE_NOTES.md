@@ -2,16 +2,14 @@
 
 ## Summary
 
-This release introduces energy schedule retrieval and receiving of sensor 
-metadata.
+This release renames `MarketLocationSelector` to `MarketLocation`
 
 ## Upgrading
 
-- Import path changes from Frequenz Common API
+- Rename `MarketLocationSelector` to `MarketLocation`.
 
 ## New Features
 
-- New ListGridpoolEnergySchedules and ListMicrogridSensors RPCs have been added
 
 ## Bug Fixes
 
