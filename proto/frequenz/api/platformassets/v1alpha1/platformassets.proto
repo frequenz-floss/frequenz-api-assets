@@ -178,10 +178,10 @@ message MarketParticipation {
 //
 // !!! important "Validation"
 //     A relation must contain at least two of `gridpool_id`, `microgrid_id`,
-//     and `market_location_selector`.
+//     and `market_location`.
 //
 //     If `gridpool_id` is unset, both `microgrid_id` and
-//     `market_location_selector` must be set. In that case, the relation does
+//     `market_location` must be set. In that case, the relation does
 //     not represent market participation, but the relation can remain as
 //     a Microgrid-to-Market-Location relation without Gridpool participation.
 //     Gridpool-specific fields, such as `delivery_area` and `participations`,
@@ -191,7 +191,7 @@ message MarketParticipation {
 //     `participations` are only valid when `gridpool_id` is set.
 //
 //      If removing `gridpool_id` would leave only `microgrid_id` or only
-//     `market_location_selector`, no valid relation remains.
+//     `market_location`, no valid relation remains.
 //
 message MarketTopologyRelation {
   // Optional. The Microgrid associated with this relation.
@@ -235,8 +235,8 @@ message MarketTopologyRelation {
   // energy trading may start before ancillary services, or ancillary services
   // may end while the Market Location remains associated for energy trading.
   //
-  // Participations are only valid when `gridpool_id` is set. If `gridpool_id` is
-  // unset, this field must be empty.
+  // Participations are only valid when `gridpool_id` is set. If `gridpool_id`
+  // is unset, this field must be empty.
   repeated MarketParticipation participations = 5;
 }
 
@@ -335,8 +335,8 @@ message GridpoolEnergySchedule {
 
   // Delivery area of the Frequenz side of the scheduled exchange.
   //
-  // This is the delivery area in which the Frequenz balancing group participates
-  // for this schedule.
+  // This is the delivery area in which the Frequenz balancing group
+  // participates for this schedule.
   //
   // This field does not imply that the Gridpool itself belongs to only one
   // delivery area. A Gridpool can have relations or schedules in different
@@ -427,22 +427,22 @@ message ListGridpoolEnergySchedulesRequest {
     // If empty, no direction filtering is applied.
     repeated GridpoolEnergyScheduleDirection directions = 2;
 
-  // Optional. Restrict returned `time_series` entries to delivery periods that
-  // overlap this interval.
-  //
-  // A time-series entry matches if its delivery period overlaps the requested
-  // interval:
-  //
-  // ```text
-  // entry.start_time < time_series_interval.end_time
-  // AND
-  // entry.start_time + schedule.delivery_duration >
-  //     time_series_interval.start_time
-  // ```
-  //
-  // The returned schedules contain only matching `time_series` entries. If
-  // omitted, no time-series filtering is applied.
-  frequenz.api.common.v1alpha8.types.Interval time_series_interval = 3;
+    // Optional. Restrict returned `time_series` entries to delivery periods
+    // that overlap this interval.
+    //
+    // A time-series entry matches if its delivery period overlaps the requested
+    // interval:
+    //
+    // ```text
+    // entry.start_time < time_series_interval.end_time
+    // AND
+    // entry.start_time + schedule.delivery_duration >
+    //     time_series_interval.start_time
+    // ```
+    //
+    // The returned schedules contain only matching `time_series` entries. If
+    // omitted, no time-series filtering is applied.
+    frequenz.api.common.v1alpha8.types.Interval time_series_interval = 3;
 
     // Optional. Return only schedules whose effective validity period overlaps
     // this interval.
@@ -511,12 +511,12 @@ message ListMarketTopologyRelationsRequest {
     // If empty, no Microgrid-ID filtering is applied.
     repeated uint64 microgrid_ids = 2;
 
-    // Optional. Return only relations involving Market Locations whose ID values
-    // match any of these filters.
+    // Optional. Return only relations involving Market Locations whose ID
+    // values match any of these filters.
     //
-    // This filter does not require callers to provide the Market Area. It is useful
-    // when the Market Location identifier is known, but the Market Area has not
-    // been resolved yet.
+    // This filter does not require callers to provide the Market Area. It is
+    // useful when the Market Location identifier is known, but the Market
+    // Area has not been resolved yet.
     //
     // If empty, no Market Location-ID filtering is applied.
     repeated frequenz.api.common.v1alpha8.grid.MarketLocationIdValue
