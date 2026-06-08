@@ -437,7 +437,7 @@ message ListGridpoolEnergySchedulesRequest {
     // entry.start_time < time_series_interval.end_time
     // AND
     // entry.start_time + schedule.delivery_duration >
-    //     time_series_interval.start_time
+    // time_series_interval.start_time
     // ```
     //
     // The returned schedules contain only matching `time_series` entries. If
@@ -447,14 +447,25 @@ message ListGridpoolEnergySchedulesRequest {
     // Optional. Return only schedules whose effective validity period overlaps
     // this interval.
     //
-    // The effective validity period starts at
-    // `validity_period.start_time`.
+    // Use this filter to retrieve all schedules that are applicable at any
+    // point during the requested time window.
+    //
+    // A schedule matches if its effective validity period intersects the
+    // requested interval:
+    //
+    // ```text
+    // effective_start_time < effective_validity_period.end_time
+    // AND
+    // effective_end_time > effective_validity_period.start_time
+    // ```
+    //
+    // The effective validity period starts at `validity_period.start_time`.
     //
     // If `cancel_time` is set before `validity_period.end_time`, the effective
     // validity period ends at `cancel_time`. Otherwise, it ends at
     // `validity_period.end_time`.
     //
-    // If omitted, no validity-period filtering is applied.
+    // If omitted, no effective-validity-period filtering is applied.
     frequenz.api.common.v1alpha8.types.Interval effective_validity_period = 4;
   }
 
