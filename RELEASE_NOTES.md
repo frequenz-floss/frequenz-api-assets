@@ -2,15 +2,14 @@
 
 ## Summary
 
-This release introduces Gridpool assignment discovery to the Platform Assets API.
+This release renames `MarketLocationSelector` to `MarketLocation`
 
 ## Upgrading
 
-- Minor documentation changes.
+- Rename `MarketLocationSelector` to `MarketLocation`.
 
 ## New Features
 
-- New ListGridpoolAssignments RPC has been added
 
 ## Bug Fixes
 

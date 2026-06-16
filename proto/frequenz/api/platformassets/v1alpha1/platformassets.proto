@@ -12,23 +12,42 @@ syntax = "proto3";
 
 package frequenz.api.platformassets.v1alpha1;
 
+import "frequenz/api/common/v1alpha8/grid/balancing_group.proto";
+import "frequenz/api/common/v1alpha8/grid/delivery_area.proto";
+import "frequenz/api/common/v1alpha8/grid/delivery_duration.proto";
+import "frequenz/api/common/v1alpha8/grid/market_location.proto";
 import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
-import "frequenz/api/common/v1alpha8/market/market_location.proto";
 // protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
 import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
+import "frequenz/api/common/v1alpha8/microgrid/sensors/sensors.proto";
+import "frequenz/api/common/v1alpha8/types/interval.proto";
 
-// PlatformAssetsService provides read-only access to platform asset metadata.
+import "google/protobuf/timestamp.proto";
+
+// PlatformAssetsService provides read-only access to platform asset and
+// market-topology metadata.
 //
-// The service exposes technical asset information required by downstream
-// services and applications, including microgrid metadata, electrical
-// component inventories, and the directed electrical component graph within a
-// microgrid.
+// The service exposes a platform-wide read model for resolving stable
+// identifiers, asset inventories, and relationships managed by the Frequenz
+// platform. This includes Gridpools, microgrids, Market Locations,
+// market-topology relations, Gridpool energy schedules, electrical component
+// inventories, sensor inventories, and the directed electrical component graph
+// within a microgrid.
 //
-// Platform assets describe the technical structure of a deployed or planned
-// microgrid. They are commonly used by reporting, forecasting, monitoring,
-// trading, optimization, and operational tooling to resolve stable asset
-// identifiers into their associated metadata.
+// Gridpools represent virtual balancing-group structures used for market
+// interactions, such as electricity trading, scheduled energy exchange, and
+// flexibility or ancillary-service participation.
+//
+// Market-topology relations describe how Gridpools, Microgrids, and Market
+// Locations are connected. These relations define which market-facing metering
+// points and technical Microgrids participate in a Gridpool context, and can
+// also describe Microgrid-to-Market-Location relations that exist without
+// market participation.
+//
+// Microgrid asset metadata describes the technical structure of deployed or
+// planned microgrids, including electrical components, sensors, and the
+// directed electrical component graph.
 //
 // !!! important "Authentication"
 //     All requests to PlatformAssetsService must be signed. The key identifier
@@ -41,10 +60,13 @@ service PlatformAssetsService {
   // Lists Gridpools within the current enterprise scope.
   rpc ListGridpools(ListGridpoolsRequest) returns (ListGridpoolsResponse);
 
-  // Lists market locations and/or microgrids that are assigned to a
-  // specific Gridpool.
-  rpc ListGridpoolAssignments(ListGridpoolAssignmentsRequest)
-      returns (ListGridpoolAssignmentsResponse);
+  // Lists energy schedules for a specific Gridpool.
+  rpc ListGridpoolEnergySchedules(ListGridpoolEnergySchedulesRequest)
+      returns (ListGridpoolEnergySchedulesResponse);
+
+  // Lists market-topology relations within the current enterprise scope.
+  rpc ListMarketTopologyRelations(ListMarketTopologyRelationsRequest)
+      returns (ListMarketTopologyRelationsResponse);
 
   // Returns metadata for a specific microgrid.
   rpc GetMicrogrid(GetMicrogridRequest) returns (GetMicrogridResponse);
@@ -62,46 +84,288 @@ service PlatformAssetsService {
   rpc ListMicrogridElectricalComponentConnections(
       ListMicrogridElectricalComponentConnectionsRequest)
       returns (ListMicrogridElectricalComponentConnectionsResponse);
+
+  // Lists sensors for a specific microgrid.
+  rpc ListMicrogridSensors(ListMicrogridSensorsRequest)
+      returns (ListMicrogridSensorsResponse);
 }
 
-// Describes a structural assignment within a Gridpool.
+// Describes the direction of a scheduled energy exchange from the perspective
+// of the Frequenz balancing group.
+enum GridpoolEnergyScheduleDirection {
+  // UNSPECIFIED: Unspecified energy schedule direction.
+  GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_UNSPECIFIED = 0;
+
+  // IMPORT: Energy is imported into the Frequenz balancing group from a
+  // third-party balancing group.
+  GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_IMPORT = 1;
+
+  // EXPORT: Energy is exported from the Frequenz balancing group to a
+  // third-party balancing group.
+  GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_EXPORT = 2;
+}
+
+// Describes a market-related use case for which a relation can participate.
+enum MarketParticipationType {
+  // UNSPECIFIED: Unspecified participation type.
+  MARKET_PARTICIPATION_TYPE_UNSPECIFIED = 0;
+
+  // ENERGY_TRADING: The relation participates in energy trading, supply,
+  // balancing, or settlement of scheduled and measured energy.
+  MARKET_PARTICIPATION_TYPE_ENERGY_TRADING = 1;
+
+  // ANCILLARY_SERVICES: The relation participates in ancillary services or
+  // flex-market services, such as FCR, aFRR, or other grid-operator services.
+  MARKET_PARTICIPATION_TYPE_FLEX_MARKETS = 2;
+}
+
+// Describes the participation of a market-topology relation in a specific use
+// case.
+message MarketParticipation {
+  // The use case for which this relation participates.
+  MarketParticipationType type = 1;
+
+  // Optional. Configured validity interval for this participation.
+  //
+  // If omitted, the participation has no explicit validity interval in the
+  // returned data. The interpretation of an omitted interval is service-defined
+  // and may depend on the participation type and backend configuration.
+  //
+  // If set, the interval describes when this relation is valid for the given
+  // use case. The interval is inclusive at `start_time` and exclusive at
+  // `end_time`.
+  //
+  // Updating `end_time` can be used to end a participation. Updating
+  // `start_time` can be used to move a participation into the future.
+  frequenz.api.common.v1alpha8.types.Interval validity_period = 2;
+}
+
+// Describes a market-topology relation between a Gridpool, Microgrid, and
+// Market Location.
 //
-// A Gridpool assignment represents one row of membership in a virtual
-// balancing group. It can reference a Market Location, a Microgrid, or both.
+// A MarketTopologyRelation is the canonical relationship record that describes
+// how official market-facing metering points, technical Microgrids, and
+// Gridpools are connected.
 //
-// A Market Location is the commercial/regulatory metering point used for
-// settlement, balancing-group allocation, forecasting, and measured energy
-// flows. A Microgrid is the technical/control representation of a site or
-// energy system.
+// A relation can exist without a Gridpool, in which case it links one
+// Microgrid to one Market Location for metering validation, reporting
+// comparison, or local optimization. A Microgrid can have multiple such
+// relations.
 //
-// Market Locations and Microgrids can exist independently. Therefore, neither
-// resource owns the relationship. The assignment is the association record.
+// When `gridpool_id` is set, the relation describes participation in a
+// Gridpool context. In that case, `delivery_area` is required and
+// use-case-specific participations can describe energy trading, ancillary
+// services, or other market-related use cases.
+//
+// A Microgrid-only Gridpool relation is a special case. It is typically used
+// when the Microgrid participates technically while the matching Market
+// Location is represented outside Frequenz, for example through a third-party
+// balancing group, or when a Market Location is temporarily excluded due to
+// metering/reporting issues.
+//
+// !!! note "Multiple Market Locations per Microgrid"
+//     A Microgrid can be associated with multiple Market Locations.
+//
+//     This is common in markets where different Market Locations represent
+//     different metering or settlement roles. For example, a Microgrid can have
+//     separate Market Locations for import and export. It can also have
+//     multiple export Market Locations, for example when different feed-in
+//     assets, such as wind and solar generation, are assigned to different
+//     subsidy, settlement, or regulatory regimes.
+//
+//     Each Microgrid-to-Market-Location association is represented as a
+//     separate MarketTopologyRelation.
 //
 // !!! important "Validation"
-//     At least one of `market_location_selector` or `microgrid_id` must be set.
-//     Both fields may be set when the Market Location and Microgrid are linked
-//     in this Gridpool context.
+//     A relation must contain at least two of `gridpool_id`, `microgrid_id`,
+//     and `market_location`.
 //
-message GridpoolAssignment {
-  // Optional. The Market Location associated with this assignment.
+//     If `gridpool_id` is unset, both `microgrid_id` and
+//     `market_location` must be set. In that case, the relation does
+//     not represent market participation, but the relation can remain as
+//     a Microgrid-to-Market-Location relation without Gridpool participation.
+//     Gridpool-specific fields, such as `delivery_area` and `participations`,
+//     no longer apply once `gridpool_id` is unset. If `gridpool_id` is set,
+//     `delivery_area` is required.
+//
+//     `participations` are only valid when `gridpool_id` is set.
+//
+//      If removing `gridpool_id` would leave only `microgrid_id` or only
+//     `market_location`, no valid relation remains.
+//
+message MarketTopologyRelation {
+  // Optional. The Microgrid associated with this relation.
   //
-  // The Market Location is the official metering point that describes measured
-  // energy flows into or out of the virtual balancing group.
+  // If `gridpool_id` is set, the Microgrid participates in the Gridpool
+  // context.
   //
-  // This field can be set without `microgrid_id` if the Market Location is
-  // assigned to the Gridpool before a Microgrid deployment exists.
-  frequenz.api.common.v1alpha8.market.MarketLocationSelector
-      market_location_selector = 1;
+  // If `gridpool_id` is unset, this field links the Microgrid to the Market
+  // Location for metering validation, reporting comparison, or local
+  // optimization.
+  optional uint64 microgrid_id = 1;
 
-  // Optional. The Microgrid associated with this assignment.
+  // Optional. The Market Location associated with this relation.
   //
-  // The Microgrid is the technical/control representation of a site or energy
-  // system.
+  // If `gridpool_id` is set, the Market Location participates in the Gridpool
+  // context.
   //
-  // This field can be set without `market_location_selector` if the Microgrid
-  // is assigned to the Gridpool independently of a directly managed Market
-  // Location.
-  optional uint64 microgrid_id = 2;
+  // If `gridpool_id` is unset, this field links the Market Location to the
+  // Microgrid without market participation.
+  frequenz.api.common.v1alpha8.grid.MarketLocation market_location = 2;
+
+  // Optional. The Gridpool associated with this relation.
+  //
+  // If set, this relation describes participation in a virtual balancing group.
+  //
+  // If unset, this relation describes only a Microgrid-to-Market-Location
+  // relationship without Gridpool participation.
+  optional uint64 gridpool_id = 3;
+
+  // Optional. Delivery area in which this relation applies.
+  //
+  // This field is required when `gridpool_id` is set, because the delivery area
+  // only has meaning in the Gridpool/balancing-group context.
+  //
+  // This field must be unset when `gridpool_id` is unset.
+  frequenz.api.common.v1alpha8.grid.DeliveryArea delivery_area = 4;
+
+  // Use-case-specific participations for this relation.
+  //
+  // Different use cases can become active at different times. For example,
+  // energy trading may start before ancillary services, or ancillary services
+  // may end while the Market Location remains associated for energy trading.
+  //
+  // Participations are only valid when `gridpool_id` is set. If `gridpool_id`
+  // is unset, this field must be empty.
+  repeated MarketParticipation participations = 5;
+}
+
+// A scheduled active-power value for one delivery period.
+message GridpoolEnergyScheduleTimeSeriesEntry {
+  // Start timestamp of the scheduled delivery value.
+  //
+  // This timestamp is inclusive. The entry applies until
+  // `start_time + GridpoolEnergySchedule.delivery_duration`.
+  google.protobuf.Timestamp start_time = 1;
+
+  // Scheduled active power in watts.
+  double active_power_w = 2;
+}
+
+// Describes a static energy schedule associated with a Gridpool.
+//
+// A Gridpool energy schedule represents a planned energy exchange between the
+// Frequenz/Gridpool side and a third-party balancing group. It is usually based
+// on a static contractual delivery, such as an OTC contract or a baseline PPA.
+//
+// The schedule defines the counterparty balancing group, the delivery areas on
+// both sides of the scheduled exchange, the direction of the exchange from the
+// Frequenz balancing-group perspective, the configured validity period, and the
+// scheduled active-power values.
+//
+// !!! note "Static schedules"
+//     Gridpool energy schedules represent fixed or pre-agreed delivery
+//     quantities. They are accounted for separately from spot-market
+//     optimization and do not describe pay-as-produced or otherwise dynamically
+//     changing delivery positions.
+//
+// !!! note "Direction"
+//     The schedule direction is expressed from the perspective of the Frequenz
+//     balancing group.
+//
+//     `IMPORT` means energy is imported into the Frequenz balancing group from
+//     the counterparty balancing group.
+//
+//     `EXPORT` means energy is exported from the Frequenz balancing group to
+//     the counterparty balancing group.
+//
+// !!! note "Delivery areas"
+//     `frequenz_delivery_area` describes the delivery area of the Frequenz
+//     side of the scheduled exchange.
+//
+//     `counterparty_delivery_area` describes the delivery area of the
+//     counterparty side of the scheduled exchange.
+//
+//     These fields describe the schedule context. They do not imply that the
+//     Gridpool itself is assigned to a single delivery area.
+//
+//     If both delivery areas are the same, the schedule represents an exchange
+//     within one delivery area.
+//
+//     If they differ, the schedule represents an exchange across delivery areas
+//     and may be subject to additional matching, nomination, and capacity-right
+//     validation.
+//
+// !!! note "Effective validity"
+//     `validity_period` describes the originally configured schedule period.
+//
+//     If `cancel_time` is set, the schedule should only be considered
+//     effective until `cancel_time`, even if `validity_period.end_time` is
+//     later. The original configured end time remains available in
+//     `validity_period`.
+//
+//     The API does not expose an active/inactive status because such a status
+//     is time-dependent. Consumers can derive it by comparing the schedule's
+//     effective validity period with the timestamp at which they evaluate the
+//     schedule.
+//
+message GridpoolEnergySchedule {
+  // Unique identifier of the Gridpool the energy schedule belongs to.
+  uint64 gridpool_id = 1;
+
+  // Unique identifier of the energy schedule.
+  uint64 schedule_id = 2;
+
+  // Human-readable name of the energy schedule.
+  string name = 3;
+
+  // The third-party balancing group involved in the scheduled energy exchange.
+  frequenz.api.common.v1alpha8.grid.BalancingGroup
+      counterparty_balancing_group = 4;
+
+  // Delivery area of the counterparty side of the scheduled exchange.
+  //
+  // If this is the same as `frequenz_delivery_area`, the schedule represents an
+  // exchange within one delivery area.
+  //
+  // If this differs from `frequenz_delivery_area`, the schedule represents an
+  // exchange across delivery areas and may be subject to additional matching,
+  // nomination, and capacity-right validation.
+  frequenz.api.common.v1alpha8.grid.DeliveryArea counterparty_delivery_area = 5;
+
+  // Delivery area of the Frequenz side of the scheduled exchange.
+  //
+  // This is the delivery area in which the Frequenz balancing group
+  // participates for this schedule.
+  //
+  // This field does not imply that the Gridpool itself belongs to only one
+  // delivery area. A Gridpool can have relations or schedules in different
+  // delivery areas.
+  frequenz.api.common.v1alpha8.grid.DeliveryArea frequenz_delivery_area = 6;
+
+  // Direction of the scheduled energy exchange from the perspective of the
+  // Frequenz balancing group.
+  GridpoolEnergyScheduleDirection direction = 7;
+
+  // Validity interval of the schedule configuration.
+  frequenz.api.common.v1alpha8.types.Interval validity_period = 8;
+
+  // Optional. Timestamp at which the schedule was cancelled.
+  //
+  // If set, the schedule should no longer be considered effective from this
+  // timestamp onward and the effective schedule period ends at `cancel_time`.
+  //
+  // The original configured end time remains available in `validity_period`.
+  google.protobuf.Timestamp cancel_time = 9;
+
+  // Delivery duration used by all time-series entries in this schedule.
+  //
+  // Each `time_series` entry applies from `entry.start_time` until
+  // `entry.start_time + delivery_duration`.
+  frequenz.api.common.v1alpha8.grid.DeliveryDuration delivery_duration = 10;
+
+  // Scheduled active-power values.
+  repeated GridpoolEnergyScheduleTimeSeriesEntry time_series = 11;
 }
 
 // Request message for listing Gridpools within the current enterprise scope.
@@ -138,21 +402,161 @@ message ListGridpoolsResponse {
   repeated frequenz.api.common.v1alpha8.gridpool.Gridpool gridpools = 1;
 }
 
-// Request message for listing Gridpool assignments within the current
-// enterprise scope.
-message ListGridpoolAssignmentsRequest {
-  // The unique identifier of the Gridpool for which to fetch assignments.
+// Request message for listing schedules for a specific Gridpool.
+message ListGridpoolEnergySchedulesRequest {
+  // Filters for selecting Gridpool schedules.
+  //
+  // A schedule must match all specified filter fields to be included in the
+  // response. The current enterprise scope is always applied in addition to
+  // these filters.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all schedules for the requested Gridpool within the current
+  //     enterprise scope are returned.
+  //
+  message GridpoolEnergySchedulesFilter {
+    // Optional. Return only schedules whose IDs are included in this list.
+    //
+    // If empty, no schedule-ID filtering is applied.
+    repeated uint64 schedule_ids = 1;
+
+    // Optional. Return only schedules with one of these directions.
+    //
+    // If empty, no direction filtering is applied.
+    repeated GridpoolEnergyScheduleDirection directions = 2;
+
+    // Optional. Restrict returned `time_series` entries to delivery periods
+    // that overlap this interval.
+    //
+    // A time-series entry matches if its delivery period overlaps the requested
+    // interval:
+    //
+    // ```text
+    // entry.start_time < time_series_interval.end_time
+    // AND
+    // entry.start_time + schedule.delivery_duration >
+    // time_series_interval.start_time
+    // ```
+    //
+    // The returned schedules contain only matching `time_series` entries. If
+    // omitted, no time-series filtering is applied.
+    frequenz.api.common.v1alpha8.types.Interval time_series_interval = 3;
+
+    // Optional. Return only schedules whose effective validity period overlaps
+    // this interval.
+    //
+    // Use this filter to retrieve all schedules that are applicable at any
+    // point during the requested time window.
+    //
+    // A schedule matches if its effective validity period intersects the
+    // requested interval:
+    //
+    // ```text
+    // effective_start_time < effective_validity_period.end_time
+    // AND
+    // effective_end_time > effective_validity_period.start_time
+    // ```
+    //
+    // The effective validity period starts at `validity_period.start_time`.
+    //
+    // If `cancel_time` is set before `validity_period.end_time`, the effective
+    // validity period ends at `cancel_time`. Otherwise, it ends at
+    // `validity_period.end_time`.
+    //
+    // If omitted, no effective-validity-period filtering is applied.
+    frequenz.api.common.v1alpha8.types.Interval effective_validity_period = 4;
+  }
+
+  // The unique identifier of the Gridpool whose schedules should be listed.
   uint64 gridpool_id = 1;
+
+  // Optional. Filtering criteria for narrowing the returned schedules.
+  //
+  // If omitted, all schedules for the requested Gridpool within the current
+  // enterprise scope are returned.
+  GridpoolEnergySchedulesFilter filter = 2;
 }
 
-// Response message containing Gridpool assignments.
-message ListGridpoolAssignmentsResponse {
-  // The unique identifier of the Gridpool this assignment belongs to.
+// Response message containing Gridpool schedules.
+//
+// The response contains schedules for the requested Gridpool matching the
+// requested filters within the current enterprise scope. If no matching
+// schedules are available in that scope, `schedules` is empty.
+//
+message ListGridpoolEnergySchedulesResponse {
+  // The unique identifier of the Gridpool the returned schedules belong to.
   uint64 gridpool_id = 1;
 
-  // Gridpool assignments matching the request filters within the current
+  // Schedules matching the request filters within the current enterprise
+  // scope.
+  repeated GridpoolEnergySchedule schedules = 2;
+}
+
+// Request message for listing market-topology relations within the current
+// enterprise scope.
+message ListMarketTopologyRelationsRequest {
+  // Filters for selecting market-topology relations.
+  //
+  // A relation must match all specified filter fields to be included in the
+  // response. The current enterprise scope is always applied in addition to
+  // these filters.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR.
+  //
+  //     Different filter fields are combined using logical AND.
+  //
+  //     If no filters are provided, all market-topology relations within the
+  //     current enterprise scope are returned.
+  //
+  message MarketTopologyRelationsFilter {
+    // Optional. Return only relations involving any of these Gridpools.
+    //
+    // If empty, no Gridpool-ID filtering is applied.
+    repeated uint64 gridpool_ids = 1;
+
+    // Optional. Return only relations involving any of these Microgrids.
+    //
+    // If empty, no Microgrid-ID filtering is applied.
+    repeated uint64 microgrid_ids = 2;
+
+    // Optional. Return only relations involving Market Locations whose ID
+    // values match any of these filters.
+    //
+    // This filter does not require callers to provide the Market Area. It is
+    // useful when the Market Location identifier is known, but the Market
+    // Area has not been resolved yet.
+    //
+    // If empty, no Market Location-ID filtering is applied.
+    repeated frequenz.api.common.v1alpha8.grid.MarketLocationIdValue
+        market_location_id_values = 3;
+
+    // Optional. Return only relations applying to any of these delivery areas.
+    //
+    // If empty, no delivery-area filtering is applied.
+    repeated frequenz.api.common.v1alpha8.grid.DeliveryArea delivery_areas = 4;
+
+    // Optional. Return only relations that include at least one participation
+    // with one of these types.
+    //
+    // If empty, no participation-type filtering is applied.
+    repeated MarketParticipationType participation_types = 5;
+  }
+
+  // Optional. Filtering criteria for narrowing the returned relations.
+  //
+  // If omitted, all market-topology relations within the current enterprise
+  // scope are returned.
+  MarketTopologyRelationsFilter filter = 1;
+}
+
+// Response message containing market-topology relations.
+message ListMarketTopologyRelationsResponse {
+  // Market-topology relations matching the request filters within the current
   // enterprise scope.
-  repeated GridpoolAssignment assignments = 2;
+  repeated MarketTopologyRelation relations = 1;
 }
 
 // Request message for retrieving metadata for a specific microgrid.
@@ -188,8 +592,9 @@ message ListMicrogridsRequest {
     // If empty, no microgrid-ID filtering is applied.
     repeated uint64 microgrid_ids = 1;
 
-    // Optional. Return only microgrids assigned to any of these Gridpools
-    // within the current enterprise scope.
+    // Optional. Return only microgrids that are part of a market-topology
+    // relation involving any of these Gridpools within the current enterprise
+    // scope.
     //
     // If empty, no Gridpool-ID filtering is applied.
     repeated uint64 gridpool_ids = 2;
@@ -197,8 +602,8 @@ message ListMicrogridsRequest {
 
   // Optional. Filtering criteria for narrowing the returned microgrids.
   //
-  // If omitted, all microgrids accessible through the authenticated client's
-  // enterprise-scoped authorization context are returned.
+  // If omitted, all microgrids within the current enterprise scope are
+  // returned.
   MicrogridsFilter filter = 1;
 }
 
@@ -222,12 +627,9 @@ message ListMicrogridElectricalComponentsRequest {
   // included in the response.
   //
   // !!! note "Filter Semantics"
-  //     Each repeated field is evaluated using logical OR.
-  //
-  //     Different filter fields are combined using logical AND.
-  //
-  //     If no filters are provided, all electrical components in the microgrid
-  //     are returned.
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all electrical components in the microgrid are returned.
   //
   message MicrogridElectricalComponentsFilter {
     // Optional. Return only components whose IDs are included in this list.
@@ -288,12 +690,9 @@ message ListMicrogridElectricalComponentConnectionsRequest {
   // response.
   //
   // !!! note "Filter Semantics"
-  //     Each repeated field is evaluated using logical OR.
-  //
-  //     Different filter fields are combined using logical AND.
-  //
-  //     If no filters are provided, all known electrical connections in the
-  //     microgrid are returned.
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all known electrical connections in the microgrid are returned.
   //
   message MicrogridElectricalComponentConnectionsFilter {
     // Optional. Return only connections whose source component ID is
@@ -331,4 +730,39 @@ message ListMicrogridElectricalComponentConnectionsResponse {
   // Electrical component connections matching the request filters.
   repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.
       ElectricalComponentConnection connections = 2;
+}
+
+// Request message for listing sensors in a microgrid.
+message ListMicrogridSensorsRequest {
+  // Filters for selecting sensors in a microgrid.
+  //
+  // A sensor must match all specified filter fields to be included in the
+  // response.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all sensors in the microgrid are returned.
+  //
+  message MicrogridSensorsFilter {
+    // Optional. Return only sensors whose IDs are included in this list.
+    repeated uint64 sensor_ids = 1;
+  }
+
+  // The unique identifier of the microgrid whose sensors should be listed.
+  uint64 microgrid_id = 1;
+
+  // Optional. Filtering criteria for narrowing the returned sensors.
+  //
+  // If omitted, all sensors in the microgrid are returned.
+  MicrogridSensorsFilter filter = 2;
+}
+
+// Response message containing sensors for a microgrid.
+message ListMicrogridSensorsResponse {
+  // The unique identifier of the microgrid the returned sensors belong to.
+  uint64 microgrid_id = 1;
+
+  // Sensors matching the request filters.
+  repeated frequenz.api.common.v1alpha8.microgrid.sensors.Sensor sensors = 2;
 }
