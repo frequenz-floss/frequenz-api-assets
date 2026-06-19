@@ -179,7 +179,7 @@ namespace_packages = true
 # used but getting the original ignored error when removing the type: ignore.
 # See for example: https://github.com/python/mypy/issues/2960
 #no_incremental = true
-packages = ["frequenz.api.assets"]
+packages = ["frequenz.api.platformassets"]
 strict = true
 
 [[tool.mypy.overrides]]
@@ -190,7 +190,7 @@ ignore_missing_imports = true
 "" = "py"
 
 [tool.setuptools.package-data]
-"*" = ["*.pyi"]
+"*" = ["*.pyi", "py.typed"]
 
 [tool.setuptools_scm]
 version_scheme = "post-release"

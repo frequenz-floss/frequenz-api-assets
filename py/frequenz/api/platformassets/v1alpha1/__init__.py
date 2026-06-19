@@ -1,5 +1,4 @@
 # License: MIT
 # Copyright © 2025 Frequenz Energy-as-a-Service GmbH
 
-"""Frequenz gRPC API to retrieval platform assets information.
-"""
+"""Frequenz Platform Assets API v1alpha1."""
