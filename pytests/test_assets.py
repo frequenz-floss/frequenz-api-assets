@@ -1,28 +1,15 @@
 # License: MIT
 # Copyright © 2025 Frequenz Energy-as-a-Service GmbH
 
-"""Tests for the frequenz.api.assets package."""
+"""Tests for the frequenz.api.platformassets package."""
 
 
 def test_package_import() -> None:
     """Test that the package can be imported."""
     # pylint: disable=import-outside-toplevel
-    from frequenz.api import assets
+    from frequenz.api import platformassets
 
-    assert assets is not None
-
-
-def test_module_import_components() -> None:
-    """Test that the modules can be imported."""
-    # pylint: disable=import-outside-toplevel
-    from frequenz.api.assets.v1 import assets_pb2
-
-    assert assets_pb2 is not None
-
-    # pylint: disable=import-outside-toplevel
-    from frequenz.api.assets.v1 import assets_pb2_grpc
-
-    assert assets_pb2_grpc is not None
+    assert platformassets is not None
 
 
 def test_platformassets_generated_modules_import() -> None:
@@ -30,7 +17,9 @@ def test_platformassets_generated_modules_import() -> None:
     # pylint: disable=import-outside-toplevel
     from frequenz.api.platformassets.v1alpha1 import platformassets_pb2
 
-    assert platformassets_pb2.DESCRIPTOR.package == "frequenz.api.platformassets.v1alpha1"
+    assert (
+        platformassets_pb2.DESCRIPTOR.package == "frequenz.api.platformassets.v1alpha1"
+    )
 
     # pylint: disable=import-outside-toplevel
     from frequenz.api.platformassets.v1alpha1 import platformassets_pb2_grpc
