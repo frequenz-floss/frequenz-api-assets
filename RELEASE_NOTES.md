@@ -2,19 +2,16 @@
 
 ## Summary
 
-This release renames `MarketLocationSelector` to `MarketLocation` and fixes
-packaging for the generated Platform Assets API modules.
+<!-- Here goes a general summary of what this release is about -->
 
 ## Upgrading
 
-- Rename `MarketLocationSelector` to `MarketLocation`.
-- The legacy `frequenz.api.assets.v1` package was removed.
-- Use `frequenz.api.platformassets.v1alpha1` for the generated API package.
+<!-- Here goes notes on how to upgrade from previous versions, including deprecations and what they should be replaced with -->
 
 ## New Features
 
+<!-- Here goes the main new features and examples or instructions on how to use them -->
 
 ## Bug Fixes
 
-- Include the generated runtime modules for
-  `frequenz.api.platformassets.v1alpha1` in wheels.
+<!-- Here goes notable bug fixes that are worth a special mention or explanation -->
