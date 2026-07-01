@@ -1,0 +1,3479 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Frequenz gRPC API to retrieval platform assets information">
+      
+      
+        <meta name="author" content="Frequenz Energy-as-a-Service GmbH">
+      
+      
+      
+        <link rel="prev" href="../../../../../..">
+      
+      
+        <link rel="next" href="../../../../../../python-reference/frequenz/api/platformassets/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../../_img/logo.png">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>platformassets.proto - Frequenz Assets API</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../../../../_css/style.css">
+    
+      <link rel="stylesheet" href="../../../../../../_css/mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#protocol-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+          <aside class="md-banner md-banner--warning">
+            <div class="md-banner__inner md-grid md-typeset">
+              
+  You're not viewing the latest (stable) version.
+  <a href="../../../../../../..">
+    <strong>Click here to go to latest (stable) version</strong>
+  </a>
+
+            </div>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../../../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
+          </aside>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../../.." title="Frequenz Assets API" class="md-header__button md-logo" aria-label="Frequenz Assets API" data-md-component="logo">
+      
+  <img src="../../../../../../_img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Frequenz Assets API
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              platformassets.proto
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/frequenz-floss/frequenz-api-assets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    frequenz-api-assets
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Protobuf API Reference
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../../python-reference/frequenz/api/platformassets/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Python API Reference
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../../../CONTRIBUTING/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../../.." title="Frequenz Assets API" class="md-nav__button md-logo" aria-label="Frequenz Assets API" data-md-component="logo">
+      
+  <img src="../../../../../../_img/logo.png" alt="logo">
+
+    </a>
+    Frequenz Assets API
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/frequenz-floss/frequenz-api-assets" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    frequenz-api-assets
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protobuf API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Protobuf API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frequenz
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    frequenz
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_1" id="__nav_2_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    api
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    api
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_1_1" id="__nav_2_1_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    platformassets
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_2_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    platformassets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1_1_1_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_1_1_1_1" id="__nav_2_1_1_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v1alpha1
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_2_1_1_1_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_1_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    v1alpha1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    platformassets.proto
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    platformassets.proto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequenzapiplatformassetsv1alpha1platformassetsproto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequenz/api/platformassets/v1alpha1/platformassets.proto
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="frequenz/api/platformassets/v1alpha1/platformassets.proto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getmicrogridrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMicrogridRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmicrogridresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMicrogridResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gridpoolenergyschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolEnergySchedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gridpoolenergyscheduletimeseriesentry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolEnergyScheduleTimeSeriesEntry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolenergyschedulesrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolEnergySchedulesRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolenergyschedulesrequestgridpoolenergyschedulesfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolEnergySchedulesRequest.GridpoolEnergySchedulesFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolenergyschedulesresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolEnergySchedulesResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolsrequestgridpoolsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolsRequest.GridpoolsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmarkettopologyrelationsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMarketTopologyRelationsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmarkettopologyrelationsrequestmarkettopologyrelationsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMarketTopologyRelationsRequest.MarketTopologyRelationsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmarkettopologyrelationsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMarketTopologyRelationsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentconnectionsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentConnectionsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentconnectionsrequestmicrogridelectricalcomponentconnectionsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentConnectionsRequest.MicrogridElectricalComponentConnectionsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentconnectionsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentConnectionsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentsrequestmicrogridelectricalcomponentsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentsRequest.MicrogridElectricalComponentsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsensorsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridSensorsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsensorsrequestmicrogridsensorsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridSensorsRequest.MicrogridSensorsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsensorsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridSensorsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsrequestmicrogridsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridsRequest.MicrogridsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marketparticipation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MarketParticipation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#markettopologyrelation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MarketTopologyRelation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gridpoolenergyscheduledirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolEnergyScheduleDirection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marketparticipationtype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MarketParticipationType
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#platformassetsservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlatformAssetsService
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalar-value-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scalar Value Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Python API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    frequenz
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    frequenz
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_1_1" id="__nav_3_1_1_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    api
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    api
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../../python-reference/frequenz/api/platformassets/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    platformassets
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1_1_1" id="__nav_3_1_1_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="4" aria-labelledby="__nav_3_1_1_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_1_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    platformassets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1_1_1_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../../python-reference/frequenz/api/platformassets/v1alpha1/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v1alpha1
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1_1_1_2" id="__nav_3_1_1_1_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="5" aria-labelledby="__nav_3_1_1_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1_1_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    v1alpha1
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../../python-reference/frequenz/api/platformassets/v1alpha1/platformassets_pb2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    platformassets_pb2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../../python-reference/frequenz/api/platformassets/v1alpha1/platformassets_pb2_grpc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    platformassets_pb2_grpc
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#frequenzapiplatformassetsv1alpha1platformassetsproto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        frequenz/api/platformassets/v1alpha1/platformassets.proto
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="frequenz/api/platformassets/v1alpha1/platformassets.proto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getmicrogridrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMicrogridRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getmicrogridresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetMicrogridResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gridpoolenergyschedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolEnergySchedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gridpoolenergyscheduletimeseriesentry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolEnergyScheduleTimeSeriesEntry
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolenergyschedulesrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolEnergySchedulesRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolenergyschedulesrequestgridpoolenergyschedulesfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolEnergySchedulesRequest.GridpoolEnergySchedulesFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolenergyschedulesresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolEnergySchedulesResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolsrequestgridpoolsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolsRequest.GridpoolsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgridpoolsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGridpoolsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmarkettopologyrelationsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMarketTopologyRelationsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmarkettopologyrelationsrequestmarkettopologyrelationsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMarketTopologyRelationsRequest.MarketTopologyRelationsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmarkettopologyrelationsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMarketTopologyRelationsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentconnectionsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentConnectionsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentconnectionsrequestmicrogridelectricalcomponentconnectionsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentConnectionsRequest.MicrogridElectricalComponentConnectionsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentconnectionsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentConnectionsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentsrequestmicrogridelectricalcomponentsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentsRequest.MicrogridElectricalComponentsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridelectricalcomponentsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridElectricalComponentsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsensorsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridSensorsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsensorsrequestmicrogridsensorsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridSensorsRequest.MicrogridSensorsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsensorsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridSensorsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridsRequest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsrequestmicrogridsfilter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridsRequest.MicrogridsFilter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listmicrogridsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListMicrogridsResponse
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marketparticipation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MarketParticipation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#markettopologyrelation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MarketTopologyRelation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gridpoolenergyscheduledirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GridpoolEnergyScheduleDirection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marketparticipationtype" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MarketParticipationType
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#platformassetsservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PlatformAssetsService
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalar-value-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scalar Value Types
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="protocol-documentation">Protocol Documentation<a class="headerlink" href="#protocol-documentation" title="Permanent link">¤</a></h1>
+<p><a name="top"></a></p>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">¤</a></h2>
+<ul>
+<li>
+<p><a href="#frequenz_api_platformassets_v1alpha1_platformassets-proto">frequenz/api/platformassets/v1alpha1/platformassets.proto</a></p>
+<ul>
+<li><a href="#frequenz-api-platformassets-v1alpha1-GetMicrogridRequest">GetMicrogridRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-GetMicrogridResponse">GetMicrogridResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-GridpoolEnergySchedule">GridpoolEnergySchedule</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-GridpoolEnergyScheduleTimeSeriesEntry">GridpoolEnergyScheduleTimeSeriesEntry</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesRequest">ListGridpoolEnergySchedulesRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesRequest-GridpoolEnergySchedulesFilter">ListGridpoolEnergySchedulesRequest.GridpoolEnergySchedulesFilter</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesResponse">ListGridpoolEnergySchedulesResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest">ListGridpoolsRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest-GridpoolsFilter">ListGridpoolsRequest.GridpoolsFilter</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsResponse">ListGridpoolsResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsRequest">ListMarketTopologyRelationsRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsRequest-MarketTopologyRelationsFilter">ListMarketTopologyRelationsRequest.MarketTopologyRelationsFilter</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsResponse">ListMarketTopologyRelationsResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsRequest">ListMicrogridElectricalComponentConnectionsRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsRequest-MicrogridElectricalComponentConnectionsFilter">ListMicrogridElectricalComponentConnectionsRequest.MicrogridElectricalComponentConnectionsFilter</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsResponse">ListMicrogridElectricalComponentConnectionsResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsRequest">ListMicrogridElectricalComponentsRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsRequest-MicrogridElectricalComponentsFilter">ListMicrogridElectricalComponentsRequest.MicrogridElectricalComponentsFilter</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsResponse">ListMicrogridElectricalComponentsResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsRequest">ListMicrogridSensorsRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsRequest-MicrogridSensorsFilter">ListMicrogridSensorsRequest.MicrogridSensorsFilter</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsResponse">ListMicrogridSensorsResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridsRequest">ListMicrogridsRequest</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridsRequest-MicrogridsFilter">ListMicrogridsRequest.MicrogridsFilter</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridsResponse">ListMicrogridsResponse</a></li>
+<li><a href="#frequenz-api-platformassets-v1alpha1-MarketParticipation">MarketParticipation</a></li>
+<li>
+<p><a href="#frequenz-api-platformassets-v1alpha1-MarketTopologyRelation">MarketTopologyRelation</a></p>
+</li>
+<li>
+<p><a href="#frequenz-api-platformassets-v1alpha1-GridpoolEnergyScheduleDirection">GridpoolEnergyScheduleDirection</a></p>
+</li>
+<li>
+<p><a href="#frequenz-api-platformassets-v1alpha1-MarketParticipationType">MarketParticipationType</a></p>
+</li>
+<li>
+<p><a href="#frequenz-api-platformassets-v1alpha1-PlatformAssetsService">PlatformAssetsService</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#scalar-value-types">Scalar Value Types</a></p>
+</li>
+</ul>
+<p><a name="frequenz_api_platformassets_v1alpha1_platformassets-proto"></a></p>
+<p align="right"><a href="#top">Top</a></p>
+
+<h2 id="frequenzapiplatformassetsv1alpha1platformassetsproto">frequenz/api/platformassets/v1alpha1/platformassets.proto<a class="headerlink" href="#frequenzapiplatformassetsv1alpha1platformassetsproto" title="Permanent link">¤</a></h2>
+<p><a name="frequenz-api-platformassets-v1alpha1-GetMicrogridRequest"></a></p>
+<h3 id="getmicrogridrequest">GetMicrogridRequest<a class="headerlink" href="#getmicrogridrequest" title="Permanent link">¤</a></h3>
+<p>Request message for retrieving metadata for a specific microgrid.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the microgrid for which to fetch details.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-GetMicrogridResponse"></a></p>
+<h3 id="getmicrogridresponse">GetMicrogridResponse<a class="headerlink" href="#getmicrogridresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing metadata for a specific microgrid.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid</td>
+<td><a href="#frequenz-api-common-v1alpha8-microgrid-Microgrid">frequenz.api.common.v1alpha8.microgrid.Microgrid</a></td>
+<td></td>
+<td>Details of the requested microgrid.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-GridpoolEnergySchedule"></a></p>
+<h3 id="gridpoolenergyschedule">GridpoolEnergySchedule<a class="headerlink" href="#gridpoolenergyschedule" title="Permanent link">¤</a></h3>
+<p>Describes a static energy schedule associated with a Gridpool.</p>
+<p>A Gridpool energy schedule represents a planned energy exchange between the
+Frequenz/Gridpool side and a third-party balancing group. It is usually based
+on a static contractual delivery, such as an OTC contract or a baseline PPA.</p>
+<p>The schedule defines the counterparty balancing group, the delivery areas on
+both sides of the scheduled exchange, the direction of the exchange from the
+Frequenz balancing-group perspective, the configured validity period, and the
+scheduled active-power values.</p>
+<p>!!! note &#34;Static schedules&#34;
+    Gridpool energy schedules represent fixed or pre-agreed delivery
+    quantities. They are accounted for separately from spot-market
+    optimization and do not describe pay-as-produced or otherwise dynamically
+    changing delivery positions.</p>
+<p>!!! note &#34;Direction&#34;
+    The schedule direction is expressed from the perspective of the Frequenz
+    balancing group.</p>
+<div class="language-text highlight"><pre><span></span><code>`IMPORT` means energy is imported into the Frequenz balancing group from
+the counterparty balancing group.
+
+`EXPORT` means energy is exported from the Frequenz balancing group to
+the counterparty balancing group.
+</code></pre></div>
+<p>!!! note &#34;Delivery areas&#34;
+    <code>frequenz_delivery_area</code> describes the delivery area of the Frequenz
+    side of the scheduled exchange.</p>
+<div class="language-text highlight"><pre><span></span><code>`counterparty_delivery_area` describes the delivery area of the
+counterparty side of the scheduled exchange.
+
+These fields describe the schedule context. They do not imply that the
+Gridpool itself is assigned to a single delivery area.
+
+If both delivery areas are the same, the schedule represents an exchange
+within one delivery area.
+
+If they differ, the schedule represents an exchange across delivery areas
+and may be subject to additional matching, nomination, and capacity-right
+validation.
+</code></pre></div>
+<p>!!! note &#34;Effective validity&#34;
+    <code>validity_period</code> describes the originally configured schedule period.</p>
+<div class="language-text highlight"><pre><span></span><code>If `cancel_time` is set, the schedule should only be considered
+effective until `cancel_time`, even if `validity_period.end_time` is
+later. The original configured end time remains available in
+`validity_period`.
+
+The API does not expose an active/inactive status because such a status
+is time-dependent. Consumers can derive it by comparing the schedule&amp;#39;s
+effective validity period with the timestamp at which they evaluate the
+schedule.
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpool_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Unique identifier of the Gridpool the energy schedule belongs to.</td>
+</tr>
+<tr>
+<td>schedule_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Unique identifier of the energy schedule.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Human-readable name of the energy schedule.</td>
+</tr>
+<tr>
+<td>counterparty_balancing_group</td>
+<td><a href="#frequenz-api-common-v1alpha8-grid-BalancingGroup">frequenz.api.common.v1alpha8.grid.BalancingGroup</a></td>
+<td></td>
+<td>The third-party balancing group involved in the scheduled energy exchange.</td>
+</tr>
+<tr>
+<td>counterparty_delivery_area</td>
+<td><a href="#frequenz-api-common-v1alpha8-grid-DeliveryArea">frequenz.api.common.v1alpha8.grid.DeliveryArea</a></td>
+<td></td>
+<td>Delivery area of the counterparty side of the scheduled exchange.</td>
+</tr>
+</tbody>
+</table>
+<p>If this is the same as <code>frequenz_delivery_area</code>, the schedule represents an exchange within one delivery area.</p>
+<p>If this differs from <code>frequenz_delivery_area</code>, the schedule represents an exchange across delivery areas and may be subject to additional matching, nomination, and capacity-right validation. |
+| frequenz_delivery_area | <a href="#frequenz-api-common-v1alpha8-grid-DeliveryArea">frequenz.api.common.v1alpha8.grid.DeliveryArea</a> |  | Delivery area of the Frequenz side of the scheduled exchange.</p>
+<p>This is the delivery area in which the Frequenz balancing group participates for this schedule.</p>
+<p>This field does not imply that the Gridpool itself belongs to only one delivery area. A Gridpool can have relations or schedules in different delivery areas. |
+| direction | <a href="#frequenz-api-platformassets-v1alpha1-GridpoolEnergyScheduleDirection">GridpoolEnergyScheduleDirection</a> |  | Direction of the scheduled energy exchange from the perspective of the Frequenz balancing group. |
+| validity_period | <a href="#frequenz-api-common-v1alpha8-types-Interval">frequenz.api.common.v1alpha8.types.Interval</a> |  | Validity interval of the schedule configuration. |
+| cancel_time | <a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a> |  | Optional. Timestamp at which the schedule was cancelled.</p>
+<p>If set, the schedule should no longer be considered effective from this timestamp onward and the effective schedule period ends at <code>cancel_time</code>.</p>
+<p>The original configured end time remains available in <code>validity_period</code>. |
+| delivery_duration | <a href="#frequenz-api-common-v1alpha8-grid-DeliveryDuration">frequenz.api.common.v1alpha8.grid.DeliveryDuration</a> |  | Delivery duration used by all time-series entries in this schedule.</p>
+<p>Each <code>time_series</code> entry applies from <code>entry.start_time</code> until <code>entry.start_time &amp;#43; delivery_duration</code>. |
+| time_series | <a href="#frequenz-api-platformassets-v1alpha1-GridpoolEnergyScheduleTimeSeriesEntry">GridpoolEnergyScheduleTimeSeriesEntry</a> | repeated | Scheduled active-power values. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-GridpoolEnergyScheduleTimeSeriesEntry"></a></p>
+<h3 id="gridpoolenergyscheduletimeseriesentry">GridpoolEnergyScheduleTimeSeriesEntry<a class="headerlink" href="#gridpoolenergyscheduletimeseriesentry" title="Permanent link">¤</a></h3>
+<p>A scheduled active-power value for one delivery period.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>start_time</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td></td>
+<td>Start timestamp of the scheduled delivery value.</td>
+</tr>
+</tbody>
+</table>
+<p>This timestamp is inclusive. The entry applies until <code>start_time &amp;#43; GridpoolEnergySchedule.delivery_duration</code>. |
+| active_power_w | <a href="#double">double</a> |  | Scheduled active power in watts. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesRequest"></a></p>
+<h3 id="listgridpoolenergyschedulesrequest">ListGridpoolEnergySchedulesRequest<a class="headerlink" href="#listgridpoolenergyschedulesrequest" title="Permanent link">¤</a></h3>
+<p>Request message for listing schedules for a specific Gridpool.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpool_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the Gridpool whose schedules should be listed.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesRequest-GridpoolEnergySchedulesFilter">ListGridpoolEnergySchedulesRequest.GridpoolEnergySchedulesFilter</a></td>
+<td></td>
+<td>Optional. Filtering criteria for narrowing the returned schedules.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, all schedules for the requested Gridpool within the current enterprise scope are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesRequest-GridpoolEnergySchedulesFilter"></a></p>
+<h3 id="listgridpoolenergyschedulesrequestgridpoolenergyschedulesfilter">ListGridpoolEnergySchedulesRequest.GridpoolEnergySchedulesFilter<a class="headerlink" href="#listgridpoolenergyschedulesrequestgridpoolenergyschedulesfilter" title="Permanent link">¤</a></h3>
+<p>Filters for selecting Gridpool schedules.</p>
+<p>A schedule must match all specified filter fields to be included in the
+response. The current enterprise scope is always applied in addition to
+these filters.</p>
+<p>!!! note &#34;Filter Semantics&#34;
+    Each repeated field is evaluated using logical OR. Different filter
+    fields are combined using logical AND. If no filters are provided,
+    all schedules for the requested Gridpool within the current
+    enterprise scope are returned.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>schedule_ids</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>Optional. Return only schedules whose IDs are included in this list.</td>
+</tr>
+</tbody>
+</table>
+<p>If empty, no schedule-ID filtering is applied. |
+| directions | <a href="#frequenz-api-platformassets-v1alpha1-GridpoolEnergyScheduleDirection">GridpoolEnergyScheduleDirection</a> | repeated | Optional. Return only schedules with one of these directions.</p>
+<p>If empty, no direction filtering is applied. |
+| time_series_interval | <a href="#frequenz-api-common-v1alpha8-types-Interval">frequenz.api.common.v1alpha8.types.Interval</a> |  | Optional. Restrict returned <code>time_series</code> entries to delivery periods that overlap this interval.</p>
+<p>A time-series entry matches if its delivery period overlaps the requested interval:</p>
+<p><code>text entry.start_time &amp;lt; time_series_interval.end_time AND entry.start_time &amp;#43; schedule.delivery_duration &amp;gt; time_series_interval.start_time</code></p>
+<p>The returned schedules contain only matching <code>time_series</code> entries. If omitted, no time-series filtering is applied. |
+| effective_validity_period | <a href="#frequenz-api-common-v1alpha8-types-Interval">frequenz.api.common.v1alpha8.types.Interval</a> |  | Optional. Return only schedules whose effective validity period overlaps this interval.</p>
+<p>Use this filter to retrieve all schedules that are applicable at any point during the requested time window.</p>
+<p>A schedule matches if its effective validity period intersects the requested interval:</p>
+<p><code>text effective_start_time &amp;lt; effective_validity_period.end_time AND effective_end_time &amp;gt; effective_validity_period.start_time</code></p>
+<p>The effective validity period starts at <code>validity_period.start_time</code>.</p>
+<p>If <code>cancel_time</code> is set before <code>validity_period.end_time</code>, the effective validity period ends at <code>cancel_time</code>. Otherwise, it ends at <code>validity_period.end_time</code>.</p>
+<p>If omitted, no effective-validity-period filtering is applied. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesResponse"></a></p>
+<h3 id="listgridpoolenergyschedulesresponse">ListGridpoolEnergySchedulesResponse<a class="headerlink" href="#listgridpoolenergyschedulesresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing Gridpool schedules.</p>
+<p>The response contains schedules for the requested Gridpool matching the
+requested filters within the current enterprise scope. If no matching
+schedules are available in that scope, <code>schedules</code> is empty.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpool_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the Gridpool the returned schedules belong to.</td>
+</tr>
+<tr>
+<td>schedules</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-GridpoolEnergySchedule">GridpoolEnergySchedule</a></td>
+<td>repeated</td>
+<td>Schedules matching the request filters within the current enterprise scope.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest"></a></p>
+<h3 id="listgridpoolsrequest">ListGridpoolsRequest<a class="headerlink" href="#listgridpoolsrequest" title="Permanent link">¤</a></h3>
+<p>Request message for listing Gridpools within the current enterprise scope.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest-GridpoolsFilter">ListGridpoolsRequest.GridpoolsFilter</a></td>
+<td></td>
+<td>Optional. Filtering criteria for narrowing the returned Gridpools.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, all Gridpools within the current enterprise scope are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest-GridpoolsFilter"></a></p>
+<h3 id="listgridpoolsrequestgridpoolsfilter">ListGridpoolsRequest.GridpoolsFilter<a class="headerlink" href="#listgridpoolsrequestgridpoolsfilter" title="Permanent link">¤</a></h3>
+<p>Filters for selecting Gridpools.</p>
+<p>A Gridpool must match all specified filter fields to be included in the
+response. The current enterprise scope is always applied in addition to
+these filters.</p>
+<p>!!! note &#34;Filter Semantics&#34;
+    Each repeated field is evaluated using logical OR. Different filter
+    fields are combined using logical AND. If no filters are provided,
+    all Gridpools within the current enterprise scope are returned.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpool_ids</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>Optional. Return only Gridpools whose IDs are included in this list and are within the current enterprise scope.</td>
+</tr>
+</tbody>
+</table>
+<p>If empty, no Gridpool-ID filtering is applied. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListGridpoolsResponse"></a></p>
+<h3 id="listgridpoolsresponse">ListGridpoolsResponse<a class="headerlink" href="#listgridpoolsresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing Gridpool metadata.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpools</td>
+<td><a href="#frequenz-api-common-v1alpha8-gridpool-Gridpool">frequenz.api.common.v1alpha8.gridpool.Gridpool</a></td>
+<td>repeated</td>
+<td>Gridpools matching the request filters within the current enterprise scope.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsRequest"></a></p>
+<h3 id="listmarkettopologyrelationsrequest">ListMarketTopologyRelationsRequest<a class="headerlink" href="#listmarkettopologyrelationsrequest" title="Permanent link">¤</a></h3>
+<p>Request message for listing market-topology relations within the current
+enterprise scope.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsRequest-MarketTopologyRelationsFilter">ListMarketTopologyRelationsRequest.MarketTopologyRelationsFilter</a></td>
+<td></td>
+<td>Optional. Filtering criteria for narrowing the returned relations.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, all market-topology relations within the current enterprise scope are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsRequest-MarketTopologyRelationsFilter"></a></p>
+<h3 id="listmarkettopologyrelationsrequestmarkettopologyrelationsfilter">ListMarketTopologyRelationsRequest.MarketTopologyRelationsFilter<a class="headerlink" href="#listmarkettopologyrelationsrequestmarkettopologyrelationsfilter" title="Permanent link">¤</a></h3>
+<p>Filters for selecting market-topology relations.</p>
+<p>A relation must match all specified filter fields to be included in the
+response. The current enterprise scope is always applied in addition to
+these filters.</p>
+<p>!!! note &#34;Filter Semantics&#34;
+    Each repeated field is evaluated using logical OR.</p>
+<div class="language-text highlight"><pre><span></span><code>Different filter fields are combined using logical AND.
+
+If no filters are provided, all market-topology relations within the
+current enterprise scope are returned.
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gridpool_ids</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>Optional. Return only relations involving any of these Gridpools.</td>
+</tr>
+</tbody>
+</table>
+<p>If empty, no Gridpool-ID filtering is applied. |
+| microgrid_ids | <a href="#uint64">uint64</a> | repeated | Optional. Return only relations involving any of these Microgrids.</p>
+<p>If empty, no Microgrid-ID filtering is applied. |
+| market_location_id_values | <a href="#frequenz-api-common-v1alpha8-grid-MarketLocationIdValue">frequenz.api.common.v1alpha8.grid.MarketLocationIdValue</a> | repeated | Optional. Return only relations involving Market Locations whose ID values match any of these filters.</p>
+<p>This filter does not require callers to provide the Market Area. It is useful when the Market Location identifier is known, but the Market Area has not been resolved yet.</p>
+<p>If empty, no Market Location-ID filtering is applied. |
+| delivery_areas | <a href="#frequenz-api-common-v1alpha8-grid-DeliveryArea">frequenz.api.common.v1alpha8.grid.DeliveryArea</a> | repeated | Optional. Return only relations applying to any of these delivery areas.</p>
+<p>If empty, no delivery-area filtering is applied. |
+| participation_types | <a href="#frequenz-api-platformassets-v1alpha1-MarketParticipationType">MarketParticipationType</a> | repeated | Optional. Return only relations that include at least one participation with one of these types.</p>
+<p>If empty, no participation-type filtering is applied. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsResponse"></a></p>
+<h3 id="listmarkettopologyrelationsresponse">ListMarketTopologyRelationsResponse<a class="headerlink" href="#listmarkettopologyrelationsresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing market-topology relations.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>relations</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-MarketTopologyRelation">MarketTopologyRelation</a></td>
+<td>repeated</td>
+<td>Market-topology relations matching the request filters within the current enterprise scope.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsRequest"></a></p>
+<h3 id="listmicrogridelectricalcomponentconnectionsrequest">ListMicrogridElectricalComponentConnectionsRequest<a class="headerlink" href="#listmicrogridelectricalcomponentconnectionsrequest" title="Permanent link">¤</a></h3>
+<p>Request message for listing directed electrical connections between
+components in a microgrid.</p>
+<p>Connections define the directed electrical component graph of a microgrid.
+The source component is closer to the grid-connection point or logical root,
+while the destination component is further downstream.</p>
+<p>!!! note &#34;Component Graph&#34;
+    A component graph in the context of a microgrid refers to a directed
+    graph where the nodes represent electrical components (like
+    generators, batteries, or loads) and the edges represent electrical
+    connections between them. The edges are directional, pointing away
+    from the grid-connection point (or the root point for island microgrids).
+    This means that for each edge, the source component is towards the grid
+    connection point, and the destination component is pointing towards
+    an underlying component. This graph provides a structured view of how
+    electrical energy flows within the microgrid.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the microgrid whose electrical component connections should be listed.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsRequest-MicrogridElectricalComponentConnectionsFilter">ListMicrogridElectricalComponentConnectionsRequest.MicrogridElectricalComponentConnectionsFilter</a></td>
+<td></td>
+<td>Optional filtering criteria for narrowing the returned connections.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, all known electrical connections in the microgrid are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsRequest-MicrogridElectricalComponentConnectionsFilter"></a></p>
+<h3 id="listmicrogridelectricalcomponentconnectionsrequestmicrogridelectricalcomponentconnectionsfilter">ListMicrogridElectricalComponentConnectionsRequest.MicrogridElectricalComponentConnectionsFilter<a class="headerlink" href="#listmicrogridelectricalcomponentconnectionsrequestmicrogridelectricalcomponentconnectionsfilter" title="Permanent link">¤</a></h3>
+<p>Filters for selecting electrical component connections in a microgrid.</p>
+<p>A connection must match all specified filter fields to be included in the
+response.</p>
+<p>!!! note &#34;Filter Semantics&#34;
+    Each repeated field is evaluated using logical OR. Different filter
+    fields are combined using logical AND. If no filters are provided,
+    all known electrical connections in the microgrid are returned.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>source_component_ids</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>Optional. Return only connections whose source component ID is included in this list.</td>
+</tr>
+</tbody>
+</table>
+<p>If empty, connections from any source component are returned. |
+| destination_component_ids | <a href="#uint64">uint64</a> | repeated | Optional. Return only connections whose destination component ID is included in this list.</p>
+<p>If empty, connections to any destination component are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsResponse"></a></p>
+<h3 id="listmicrogridelectricalcomponentconnectionsresponse">ListMicrogridElectricalComponentConnectionsResponse<a class="headerlink" href="#listmicrogridelectricalcomponentconnectionsresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing directed electrical connections for a microgrid.</p>
+<p>The response contains all connections matching the requested filters. If no
+connection matches the filters, <code>connections</code> is empty.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the microgrid the returned connections belong to.</td>
+</tr>
+<tr>
+<td>connections</td>
+<td><a href="#frequenz-api-common-v1alpha8-microgrid-electrical_components-ElectricalComponentConnection">frequenz.api.common.v1alpha8.microgrid.electrical_components.ElectricalComponentConnection</a></td>
+<td>repeated</td>
+<td>Electrical component connections matching the request filters.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsRequest"></a></p>
+<h3 id="listmicrogridelectricalcomponentsrequest">ListMicrogridElectricalComponentsRequest<a class="headerlink" href="#listmicrogridelectricalcomponentsrequest" title="Permanent link">¤</a></h3>
+<p>Request parameters for the RPC <code>ListMicrogridElectricalComponents</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>Mandatory field. The ID of the microgrid for which components are to be listed.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsRequest-MicrogridElectricalComponentsFilter">ListMicrogridElectricalComponentsRequest.MicrogridElectricalComponentsFilter</a></td>
+<td></td>
+<td>Optional. Filtering criteria for narrowing the returned components.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, all electrical components in the microgrid are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsRequest-MicrogridElectricalComponentsFilter"></a></p>
+<h3 id="listmicrogridelectricalcomponentsrequestmicrogridelectricalcomponentsfilter">ListMicrogridElectricalComponentsRequest.MicrogridElectricalComponentsFilter<a class="headerlink" href="#listmicrogridelectricalcomponentsrequestmicrogridelectricalcomponentsfilter" title="Permanent link">¤</a></h3>
+<p>Filters for selecting electrical components in a microgrid.</p>
+<p>An electrical component must match all specified filter fields to be
+included in the response.</p>
+<p>!!! note &#34;Filter Semantics&#34;
+    Each repeated field is evaluated using logical OR. Different filter
+    fields are combined using logical AND. If no filters are provided,
+    all electrical components in the microgrid are returned.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>component_ids</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>Optional. Return only components whose IDs are included in this list.</td>
+</tr>
+</tbody>
+</table>
+<p>If empty, no component-ID filtering is applied. |
+| categories | <a href="#frequenz-api-common-v1alpha8-microgrid-electrical_components-ElectricalComponentCategory">frequenz.api.common.v1alpha8.microgrid.electrical_components.ElectricalComponentCategory</a> | repeated | Optional. Return only components whose categories are included in this list.</p>
+<p>If empty, no category filtering is applied. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsResponse"></a></p>
+<h3 id="listmicrogridelectricalcomponentsresponse">ListMicrogridElectricalComponentsResponse<a class="headerlink" href="#listmicrogridelectricalcomponentsresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing electrical components for a microgrid.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the microgrid the returned components belong to.</td>
+</tr>
+<tr>
+<td>components</td>
+<td><a href="#frequenz-api-common-v1alpha8-microgrid-electrical_components-ElectricalComponent">frequenz.api.common.v1alpha8.microgrid.electrical_components.ElectricalComponent</a></td>
+<td>repeated</td>
+<td>Electrical components matching the request filters.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsRequest"></a></p>
+<h3 id="listmicrogridsensorsrequest">ListMicrogridSensorsRequest<a class="headerlink" href="#listmicrogridsensorsrequest" title="Permanent link">¤</a></h3>
+<p>Request message for listing sensors in a microgrid.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the microgrid whose sensors should be listed.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsRequest-MicrogridSensorsFilter">ListMicrogridSensorsRequest.MicrogridSensorsFilter</a></td>
+<td></td>
+<td>Optional. Filtering criteria for narrowing the returned sensors.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, all sensors in the microgrid are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsRequest-MicrogridSensorsFilter"></a></p>
+<h3 id="listmicrogridsensorsrequestmicrogridsensorsfilter">ListMicrogridSensorsRequest.MicrogridSensorsFilter<a class="headerlink" href="#listmicrogridsensorsrequestmicrogridsensorsfilter" title="Permanent link">¤</a></h3>
+<p>Filters for selecting sensors in a microgrid.</p>
+<p>A sensor must match all specified filter fields to be included in the
+response.</p>
+<p>!!! note &#34;Filter Semantics&#34;
+    Each repeated field is evaluated using logical OR. Different filter
+    fields are combined using logical AND. If no filters are provided,
+    all sensors in the microgrid are returned.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sensor_ids</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>Optional. Return only sensors whose IDs are included in this list.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsResponse"></a></p>
+<h3 id="listmicrogridsensorsresponse">ListMicrogridSensorsResponse<a class="headerlink" href="#listmicrogridsensorsresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing sensors for a microgrid.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td></td>
+<td>The unique identifier of the microgrid the returned sensors belong to.</td>
+</tr>
+<tr>
+<td>sensors</td>
+<td><a href="#frequenz-api-common-v1alpha8-microgrid-sensors-Sensor">frequenz.api.common.v1alpha8.microgrid.sensors.Sensor</a></td>
+<td>repeated</td>
+<td>Sensors matching the request filters.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridsRequest"></a></p>
+<h3 id="listmicrogridsrequest">ListMicrogridsRequest<a class="headerlink" href="#listmicrogridsrequest" title="Permanent link">¤</a></h3>
+<p>Request message for listing microgrids within the current enterprise scope.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridsRequest-MicrogridsFilter">ListMicrogridsRequest.MicrogridsFilter</a></td>
+<td></td>
+<td>Optional. Filtering criteria for narrowing the returned microgrids.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, all microgrids within the current enterprise scope are returned. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridsRequest-MicrogridsFilter"></a></p>
+<h3 id="listmicrogridsrequestmicrogridsfilter">ListMicrogridsRequest.MicrogridsFilter<a class="headerlink" href="#listmicrogridsrequestmicrogridsfilter" title="Permanent link">¤</a></h3>
+<p>Filters for selecting microgrids.</p>
+<p>A microgrid must match all specified filter fields to be included in the
+response. The current enterprise scope is always applied in addition to
+these filters.</p>
+<p>!!! note &#34;Filter Semantics&#34;
+    Each repeated field is evaluated using logical OR. Different filter
+    fields are combined using logical AND. If no filters are provided,
+    all microgrids within the current enterprise
+    scope are returned.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_ids</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>Optional. Return only microgrids whose IDs are included in this list and are within the current enterprise scope.</td>
+</tr>
+</tbody>
+</table>
+<p>If empty, no microgrid-ID filtering is applied. |
+| gridpool_ids | <a href="#uint64">uint64</a> | repeated | Optional. Return only microgrids that are part of a market-topology relation involving any of these Gridpools within the current enterprise scope.</p>
+<p>If empty, no Gridpool-ID filtering is applied. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-ListMicrogridsResponse"></a></p>
+<h3 id="listmicrogridsresponse">ListMicrogridsResponse<a class="headerlink" href="#listmicrogridsresponse" title="Permanent link">¤</a></h3>
+<p>Response message containing microgrid metadata.</p>
+<p>The response contains microgrids matching the requested filters within the
+current enterprise-scoped context. If no matching microgrids are available
+in that context, <code>microgrids</code> is empty.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrids</td>
+<td><a href="#frequenz-api-common-v1alpha8-microgrid-Microgrid">frequenz.api.common.v1alpha8.microgrid.Microgrid</a></td>
+<td>repeated</td>
+<td>Microgrids matching the request filters within the current enterprise-scope.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-MarketParticipation"></a></p>
+<h3 id="marketparticipation">MarketParticipation<a class="headerlink" href="#marketparticipation" title="Permanent link">¤</a></h3>
+<p>Describes the participation of a market-topology relation in a specific use
+case.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>type</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-MarketParticipationType">MarketParticipationType</a></td>
+<td></td>
+<td>The use case for which this relation participates.</td>
+</tr>
+<tr>
+<td>validity_period</td>
+<td><a href="#frequenz-api-common-v1alpha8-types-Interval">frequenz.api.common.v1alpha8.types.Interval</a></td>
+<td></td>
+<td>Optional. Configured validity interval for this participation.</td>
+</tr>
+</tbody>
+</table>
+<p>If omitted, the participation has no explicit validity interval in the returned data. The interpretation of an omitted interval is service-defined and may depend on the participation type and backend configuration.</p>
+<p>If set, the interval describes when this relation is valid for the given use case. The interval is inclusive at <code>start_time</code> and exclusive at <code>end_time</code>.</p>
+<p>Updating <code>end_time</code> can be used to end a participation. Updating <code>start_time</code> can be used to move a participation into the future. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-MarketTopologyRelation"></a></p>
+<h3 id="markettopologyrelation">MarketTopologyRelation<a class="headerlink" href="#markettopologyrelation" title="Permanent link">¤</a></h3>
+<p>Describes a market-topology relation between a Gridpool, Microgrid, and
+Market Location.</p>
+<p>A MarketTopologyRelation is the canonical relationship record that describes
+how official market-facing metering points, technical Microgrids, and
+Gridpools are connected.</p>
+<p>A relation can exist without a Gridpool, in which case it links one
+Microgrid to one Market Location for metering validation, reporting
+comparison, or local optimization. A Microgrid can have multiple such
+relations.</p>
+<p>When <code>gridpool_id</code> is set, the relation describes participation in a
+Gridpool context. In that case, <code>delivery_area</code> is required and
+use-case-specific participations can describe energy trading, ancillary
+services, or other market-related use cases.</p>
+<p>A Microgrid-only Gridpool relation is a special case. It is typically used
+when the Microgrid participates technically while the matching Market
+Location is represented outside Frequenz, for example through a third-party
+balancing group, or when a Market Location is temporarily excluded due to
+metering/reporting issues.</p>
+<p>!!! note &#34;Multiple Market Locations per Microgrid&#34;
+    A Microgrid can be associated with multiple Market Locations.</p>
+<div class="language-text highlight"><pre><span></span><code>This is common in markets where different Market Locations represent
+different metering or settlement roles. For example, a Microgrid can have
+separate Market Locations for import and export. It can also have
+multiple export Market Locations, for example when different feed-in
+assets, such as wind and solar generation, are assigned to different
+subsidy, settlement, or regulatory regimes.
+
+Each Microgrid-to-Market-Location association is represented as a
+separate MarketTopologyRelation.
+</code></pre></div>
+<p>!!! important &#34;Validation&#34;
+    A relation must contain at least two of <code>gridpool_id</code>, <code>microgrid_id</code>,
+    and <code>market_location</code>.</p>
+<div class="language-text highlight"><pre><span></span><code>If `gridpool_id` is unset, both `microgrid_id` and
+`market_location` must be set. In that case, the relation does
+not represent market participation, but the relation can remain as
+a Microgrid-to-Market-Location relation without Gridpool participation.
+Gridpool-specific fields, such as `delivery_area` and `participations`,
+no longer apply once `gridpool_id` is unset. If `gridpool_id` is set,
+`delivery_area` is required.
+
+`participations` are only valid when `gridpool_id` is set.
+
+ If removing `gridpool_id` would leave only `microgrid_id` or only
+`market_location`, no valid relation remains.
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>microgrid_id</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Optional. The Microgrid associated with this relation.</td>
+</tr>
+</tbody>
+</table>
+<p>If <code>gridpool_id</code> is set, the Microgrid participates in the Gridpool context.</p>
+<p>If <code>gridpool_id</code> is unset, this field links the Microgrid to the Market Location for metering validation, reporting comparison, or local optimization. |
+| market_location | <a href="#frequenz-api-common-v1alpha8-grid-MarketLocation">frequenz.api.common.v1alpha8.grid.MarketLocation</a> |  | Optional. The Market Location associated with this relation.</p>
+<p>If <code>gridpool_id</code> is set, the Market Location participates in the Gridpool context.</p>
+<p>If <code>gridpool_id</code> is unset, this field links the Market Location to the Microgrid without market participation. |
+| gridpool_id | <a href="#uint64">uint64</a> | optional | Optional. The Gridpool associated with this relation.</p>
+<p>If set, this relation describes participation in a virtual balancing group.</p>
+<p>If unset, this relation describes only a Microgrid-to-Market-Location relationship without Gridpool participation. |
+| delivery_area | <a href="#frequenz-api-common-v1alpha8-grid-DeliveryArea">frequenz.api.common.v1alpha8.grid.DeliveryArea</a> |  | Optional. Delivery area in which this relation applies.</p>
+<p>This field is required when <code>gridpool_id</code> is set, because the delivery area only has meaning in the Gridpool/balancing-group context.</p>
+<p>This field must be unset when <code>gridpool_id</code> is unset. |
+| participations | <a href="#frequenz-api-platformassets-v1alpha1-MarketParticipation">MarketParticipation</a> | repeated | Use-case-specific participations for this relation.</p>
+<p>Different use cases can become active at different times. For example, energy trading may start before ancillary services, or ancillary services may end while the Market Location remains associated for energy trading.</p>
+<p>Participations are only valid when <code>gridpool_id</code> is set. If <code>gridpool_id</code> is unset, this field must be empty. |</p>
+<p><a name="frequenz-api-platformassets-v1alpha1-GridpoolEnergyScheduleDirection"></a></p>
+<h3 id="gridpoolenergyscheduledirection">GridpoolEnergyScheduleDirection<a class="headerlink" href="#gridpoolenergyscheduledirection" title="Permanent link">¤</a></h3>
+<p>Describes the direction of a scheduled energy exchange from the perspective
+of the Frequenz balancing group.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Number</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_UNSPECIFIED</td>
+<td>0</td>
+<td>UNSPECIFIED: Unspecified energy schedule direction.</td>
+</tr>
+<tr>
+<td>GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_IMPORT</td>
+<td>1</td>
+<td>IMPORT: Energy is imported into the Frequenz balancing group from a third-party balancing group.</td>
+</tr>
+<tr>
+<td>GRIDPOOL_ENERGY_SCHEDULE_DIRECTION_EXPORT</td>
+<td>2</td>
+<td>EXPORT: Energy is exported from the Frequenz balancing group to a third-party balancing group.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-MarketParticipationType"></a></p>
+<h3 id="marketparticipationtype">MarketParticipationType<a class="headerlink" href="#marketparticipationtype" title="Permanent link">¤</a></h3>
+<p>Describes a market-related use case for which a relation can participate.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Number</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MARKET_PARTICIPATION_TYPE_UNSPECIFIED</td>
+<td>0</td>
+<td>UNSPECIFIED: Unspecified participation type.</td>
+</tr>
+<tr>
+<td>MARKET_PARTICIPATION_TYPE_ENERGY_TRADING</td>
+<td>1</td>
+<td>ENERGY_TRADING: The relation participates in energy trading, supply, balancing, or settlement of scheduled and measured energy.</td>
+</tr>
+<tr>
+<td>MARKET_PARTICIPATION_TYPE_FLEX_MARKETS</td>
+<td>2</td>
+<td>ANCILLARY_SERVICES: The relation participates in ancillary services or flex-market services, such as FCR, aFRR, or other grid-operator services.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="frequenz-api-platformassets-v1alpha1-PlatformAssetsService"></a></p>
+<h3 id="platformassetsservice">PlatformAssetsService<a class="headerlink" href="#platformassetsservice" title="Permanent link">¤</a></h3>
+<p>PlatformAssetsService provides read-only access to platform asset and
+market-topology metadata.</p>
+<p>The service exposes a platform-wide read model for resolving stable
+identifiers, asset inventories, and relationships managed by the Frequenz
+platform. This includes Gridpools, microgrids, Market Locations,
+market-topology relations, Gridpool energy schedules, electrical component
+inventories, sensor inventories, and the directed electrical component graph
+within a microgrid.</p>
+<p>Gridpools represent virtual balancing-group structures used for market
+interactions, such as electricity trading, scheduled energy exchange, and
+flexibility or ancillary-service participation.</p>
+<p>Market-topology relations describe how Gridpools, Microgrids, and Market
+Locations are connected. These relations define which market-facing metering
+points and technical Microgrids participate in a Gridpool context, and can
+also describe Microgrid-to-Market-Location relations that exist without
+market participation.</p>
+<p>Microgrid asset metadata describes the technical structure of deployed or
+planned microgrids, including electrical components, sensors, and the
+directed electrical component graph.</p>
+<p>!!! important &#34;Authentication&#34;
+    All requests to PlatformAssetsService must be signed. The key identifier
+    and signature must be included in the request metadata (gRPC metadata /
+    HTTP headers). The signature must be computed using the HMAC-SHA256
+    algorithm and secret key. All requests to this service must be made
+    over TLS (HTTPS).</p>
+<table>
+<thead>
+<tr>
+<th>Method Name</th>
+<th>Request Type</th>
+<th>Response Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ListGridpools</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsRequest">ListGridpoolsRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolsResponse">ListGridpoolsResponse</a></td>
+<td>Lists Gridpools within the current enterprise scope.</td>
+</tr>
+<tr>
+<td>ListGridpoolEnergySchedules</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesRequest">ListGridpoolEnergySchedulesRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListGridpoolEnergySchedulesResponse">ListGridpoolEnergySchedulesResponse</a></td>
+<td>Lists energy schedules for a specific Gridpool.</td>
+</tr>
+<tr>
+<td>ListMarketTopologyRelations</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsRequest">ListMarketTopologyRelationsRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMarketTopologyRelationsResponse">ListMarketTopologyRelationsResponse</a></td>
+<td>Lists market-topology relations within the current enterprise scope.</td>
+</tr>
+<tr>
+<td>GetMicrogrid</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-GetMicrogridRequest">GetMicrogridRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-GetMicrogridResponse">GetMicrogridResponse</a></td>
+<td>Returns metadata for a specific microgrid.</td>
+</tr>
+<tr>
+<td>ListMicrogrids</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridsRequest">ListMicrogridsRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridsResponse">ListMicrogridsResponse</a></td>
+<td>Lists microgrids within the current enterprise scope.</td>
+</tr>
+<tr>
+<td>ListMicrogridElectricalComponents</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsRequest">ListMicrogridElectricalComponentsRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentsResponse">ListMicrogridElectricalComponentsResponse</a></td>
+<td>Lists electrical components for a specific microgrid.</td>
+</tr>
+<tr>
+<td>ListMicrogridElectricalComponentConnections</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsRequest">ListMicrogridElectricalComponentConnectionsRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridElectricalComponentConnectionsResponse">ListMicrogridElectricalComponentConnectionsResponse</a></td>
+<td>Lists directed electrical connections between components in a specific microgrid.</td>
+</tr>
+<tr>
+<td>ListMicrogridSensors</td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsRequest">ListMicrogridSensorsRequest</a></td>
+<td><a href="#frequenz-api-platformassets-v1alpha1-ListMicrogridSensorsResponse">ListMicrogridSensorsResponse</a></td>
+<td>Lists sensors for a specific microgrid.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="scalar-value-types">Scalar Value Types<a class="headerlink" href="#scalar-value-types" title="Permanent link">¤</a></h2>
+<table>
+<thead>
+<tr>
+<th>.proto Type</th>
+<th>Notes</th>
+<th>C++</th>
+<th>Java</th>
+<th>Python</th>
+<th>Go</th>
+<th>C#</th>
+<th>PHP</th>
+<th>Ruby</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="double" /> double</td>
+<td></td>
+<td>double</td>
+<td>double</td>
+<td>float</td>
+<td>float64</td>
+<td>double</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="float" /> float</td>
+<td></td>
+<td>float</td>
+<td>float</td>
+<td>float</td>
+<td>float32</td>
+<td>float</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="int32" /> int32</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="int64" /> int64</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="uint32" /> uint32</td>
+<td>Uses variable-length encoding.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int/long</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="uint64" /> uint64</td>
+<td>Uses variable-length encoding.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint32" /> sint32</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint64" /> sint64</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="fixed32" /> fixed32</td>
+<td>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="fixed64" /> fixed64</td>
+<td>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="sfixed32" /> sfixed32</td>
+<td>Always four bytes.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sfixed64" /> sfixed64</td>
+<td>Always eight bytes.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="bool" /> bool</td>
+<td></td>
+<td>bool</td>
+<td>boolean</td>
+<td>boolean</td>
+<td>bool</td>
+<td>bool</td>
+<td>boolean</td>
+<td>TrueClass/FalseClass</td>
+</tr>
+<tr>
+<td><a name="string" /> string</td>
+<td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td>
+<td>string</td>
+<td>String</td>
+<td>str/unicode</td>
+<td>string</td>
+<td>string</td>
+<td>string</td>
+<td>String (UTF-8)</td>
+</tr>
+<tr>
+<td><a name="bytes" /> bytes</td>
+<td>May contain any arbitrary sequence of bytes.</td>
+<td>string</td>
+<td>ByteString</td>
+<td>str</td>
+<td>[]byte</td>
+<td>ByteString</td>
+<td>string</td>
+<td>String (ASCII-8BIT)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../../../../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Home
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../../../../python-reference/frequenz/api/platformassets/" class="md-footer__link md-footer__link--next" aria-label="Next: Index">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Index
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © 2025 Frequenz Energy-as-a-Service GmbH
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/frequenz-floss" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/company/frequenz-com" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zM102.2 96a38.5 38.5 0 1 1 0 77 38.5 38.5 0 1 1 0-77m282.1 320h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../../..", "features": ["content.code.annotate", "content.code.copy", "navigation.indexes", "navigation.instant", "navigation.footer", "navigation.tabs", "navigation.top", "navigation.tracking", "toc.follow"], "search": "../../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
