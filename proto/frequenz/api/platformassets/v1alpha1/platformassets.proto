@@ -18,6 +18,8 @@ import "frequenz/api/common/v1alpha8/grid/delivery_duration.proto";
 import "frequenz/api/common/v1alpha8/grid/market_location.proto";
 import "frequenz/api/common/v1alpha8/gridpool/gridpool.proto";
 // protolint:disable:next MAX_LINE_LENGTH
+import "frequenz/api/common/v1alpha8/microgrid/communication_components/communication_components.proto";
+// protolint:disable:next MAX_LINE_LENGTH
 import "frequenz/api/common/v1alpha8/microgrid/electrical_components/electrical_components.proto";
 import "frequenz/api/common/v1alpha8/microgrid/microgrid.proto";
 import "frequenz/api/common/v1alpha8/microgrid/sensors/sensors.proto";
@@ -31,9 +33,9 @@ import "google/protobuf/timestamp.proto";
 // The service exposes a platform-wide read model for resolving stable
 // identifiers, asset inventories, and relationships managed by the Frequenz
 // platform. This includes Gridpools, microgrids, Market Locations,
-// market-topology relations, Gridpool energy schedules, electrical component
-// inventories, sensor inventories, and the directed electrical component graph
-// within a microgrid.
+// market-topology relations, Gridpool energy schedules, electrical and
+// communication component inventories, sensor inventories, and the directed
+// electrical component graph within a microgrid.
 //
 // Gridpools represent virtual balancing-group structures used for market
 // interactions, such as electricity trading, scheduled energy exchange, and
@@ -46,8 +48,8 @@ import "google/protobuf/timestamp.proto";
 // market participation.
 //
 // Microgrid asset metadata describes the technical structure of deployed or
-// planned microgrids, including electrical components, sensors, and the
-// directed electrical component graph.
+// planned microgrids, including electrical components, communication
+// components, sensors, and the directed electrical component graph.
 //
 // !!! important "Authentication"
 //     All requests to PlatformAssetsService must be signed. The key identifier
@@ -78,6 +80,11 @@ service PlatformAssetsService {
   rpc ListMicrogridElectricalComponents(
       ListMicrogridElectricalComponentsRequest)
       returns (ListMicrogridElectricalComponentsResponse);
+
+  // Lists communication components for a specific microgrid.
+  rpc ListMicrogridCommunicationComponents(
+      ListMicrogridCommunicationComponentsRequest)
+      returns (ListMicrogridCommunicationComponentsResponse);
 
   // Lists directed electrical connections between components in a specific
   // microgrid.
@@ -663,6 +670,52 @@ message ListMicrogridElectricalComponentsResponse {
   // Electrical components matching the request filters.
   repeated frequenz.api.common.v1alpha8.microgrid.electrical_components.
       ElectricalComponent components = 2;
+}
+
+// Request parameters for the RPC `ListMicrogridCommunicationComponents`.
+message ListMicrogridCommunicationComponentsRequest {
+  // Filters for selecting communication components in a microgrid.
+  //
+  // A communication component must match all specified filter fields to be
+  // included in the response.
+  //
+  // !!! note "Filter Semantics"
+  //     Each repeated field is evaluated using logical OR. Different filter
+  //     fields are combined using logical AND. If no filters are provided,
+  //     all communication components in the microgrid are returned.
+  //
+  message MicrogridCommunicationComponentsFilter {
+    // Optional. Return only components whose IDs are included in this list.
+    //
+    // If empty, no component-ID filtering is applied.
+    repeated uint64 component_ids = 1;
+
+    // Optional. Return only components whose categories are included in this
+    // list.
+    //
+    // If empty, no category filtering is applied.
+    repeated frequenz.api.common.v1alpha8.microgrid.communication_components.
+        CommunicationComponentCategory categories = 2;
+  }
+
+  // Mandatory field. The ID of the microgrid for which components
+  // are to be listed.
+  uint64 microgrid_id = 1;
+
+  // Optional. Filtering criteria for narrowing the returned components.
+  //
+  // If omitted, all communication components in the microgrid are returned.
+  MicrogridCommunicationComponentsFilter filter = 2;
+}
+
+// Response message containing communication components for a microgrid.
+message ListMicrogridCommunicationComponentsResponse {
+  // The unique identifier of the microgrid the returned components belong to.
+  uint64 microgrid_id = 1;
+
+  // Communication components matching the request filters.
+  repeated frequenz.api.common.v1alpha8.microgrid.communication_components.
+      CommunicationComponent components = 2;
 }
 
 // Request message for listing directed electrical connections between
