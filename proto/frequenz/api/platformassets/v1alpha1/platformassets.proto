@@ -211,7 +211,7 @@ message MarketTopologyRelation {
   //
   // If `gridpool_id` is unset, this field links the Market Location to the
   // Microgrid without market participation.
-  frequenz.api.common.v1alpha8.grid.MarketLocation market_location = 2;
+  frequenz.api.common.v1alpha8.grid.MarketLocationRef market_location_ref = 2;
 
   // Optional. The Gridpool associated with this relation.
   //
